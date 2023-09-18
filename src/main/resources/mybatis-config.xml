@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="pojo"/><!--别名，用于简化UserMapper.xml中resultType的书写-->
+    </typeAliases>
+
+
+
+    <!--配置数据库的连接环境信息（可以用default熟悉来切换数据库)-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!--数据库连接信息 -->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///webtest?useSSL=false"/>
+                <property name="username" value="root"/>
+                <property name="password" value="Mhs871270392"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--加载sql映射文件 -->
+        <!--        <mapper resource="mapper/UserMapper.xml"/>-->
+        <!--把上面那行改为包扫描方式加载（需要结构符合条件-->
+        <package name="mapper"/>
+
+    </mappers>
+</configuration>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Demo</title>
+</head>
+<body>
+<h1>WebSocket Demo</h1>
+<input type="text" id="input-json" placeholder="Enter JSON data">
+<button id="send-button">Send</button>
+<div id="output"></div>
+
+<script>
+  var socket = new WebSocket("ws://localhost:80/websocket");
+
+  socket.onopen = function () {
+    alert("连接成功");
+  }
+
+  socket.onmessage = function (e) {
+    let message = e.data;
+    console.log("receive message:" + message);
+    document.getElementById("output").innerHTML = message;
+  }
+
+  document.getElementById("send-button").onclick = function () {
+      var json = document.getElementById("input-json").value;
+      console.log("send message:" + json);
+      socket.send(json);
+  };
+</script>
+</body>
+</html>

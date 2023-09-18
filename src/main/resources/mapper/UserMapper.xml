@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserMapper">
+    <resultMap id="userResultMap" type="pojo.User">
+        <id column="user_name" property="name" />
+        <result column="user_password" property="password" />
+        <result column="account_type" property="accountType" />
+    </resultMap>
+
+    <!--主键返回:这里resultType="pojo.User",其中有id属性。那么在指定useGeneratedKeys时的keyProperty后,这个值会被赋值到User对象的id属性-->
+    <insert id="openAccount">
+        insert into user set
+        user_name = #{name},
+        user_password = #{password}
+        <if test="accountType != null">
+            ,account_type = #{accountType}
+        </if>
+    </insert>
+
+    <delete id="deleteAccount">
+        delete from user
+        where user_name = #{name}
+    </delete>
+
+    <select id="getPasswordById" resultType="java.lang.String">
+        select user_password
+        from user
+        where user_name = #{name}
+    </select>
+    <select id="getAccountTypeById" resultType="java.lang.Integer">
+        select account_type
+        from user
+        where user_name = #{name}
+    </select>
+    <select id="getAccount" resultType="java.lang.Integer">
+        select user_name
+        from user
+        where user_name = #{name}
+    </select>
+
+    <select id="getUserById" resultMap="userResultMap">
+        select user_name,user_password,account_type
+        from user
+        where user_name = #{name}
+    </select>
+<!--    <select id="getVersionById" resultType="java.lang.Integer">-->
+<!--        select version-->
+<!--        from user-->
+<!--        where user_id = #{accountNum}-->
+<!--    </select>-->
+
+
+</mapper>
