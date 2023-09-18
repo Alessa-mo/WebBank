@@ -19,6 +19,7 @@ public class Processor {
         this.message = message;
     }
 
+
     public String parseMessage(){
         String op=message.getString("op");
         AbstractRes res;
