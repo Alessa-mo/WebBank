@@ -18,7 +18,7 @@
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql:///webtest?useSSL=false"/>
                 <property name="username" value="root"/>
-                <property name="password" value="Mhs871270392"/>
+                <property name="password" value="123"/>
             </dataSource>
         </environment>
     </environments>
