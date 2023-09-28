@@ -59,16 +59,6 @@
 <!--    </select>-->
 
 
-    <!--TODO JAVA方法映射到SQL语句 创建User -->
-    <insert id="CreateUser">
-        insert into user set
-        user_name = #{name},
-        user_password = #{password},
-        account_type = #{accountType}
-        <if test="accountType != null">
-            ,account_type = #{accountType}
-        </if>
-    </insert>
 
 
 </mapper>
