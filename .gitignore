@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 #数据库连接配置
-src/main/resources/mabatis-config.xml
+src/main/resources/mybatis-config.xml
 
 ### IntelliJ IDEA ###
 .idea/
