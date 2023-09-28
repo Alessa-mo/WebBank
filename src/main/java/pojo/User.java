@@ -10,43 +10,52 @@ package pojo;
  * account_type int default 0);
  */
 
-public class User {
-    private String name;
-    private String password;
-    private Integer accountType;//账户类型,0为customer,1为bank_clerks
+public class User
+{
+    protected String Name;
+    protected String Passward;
+    protected Integer Type;
 
+    public User(){}
+    public User(String name,String passward,Integer type)
+    {
+        this.Name = name;
+        this.Passward = passward;
+        this.Type = type;
+    }
 
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = name;
     }
 
     public String getPassword() {
-        return password;
+        return Passward;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.Passward = password;
     }
 
     public Integer getAccountType() {
-        return accountType;
+        return this.Type;
     }
 
     public void setAccountType(Integer accountType) {
-        this.accountType = accountType;
+        this.Type = accountType;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", accountType=" + accountType +
+                ", name='" + Name + '\'' +
+                ", password='" + Passward + '\'' +
+                ", accountType=" + Type +
                 '}';
     }
+
 }

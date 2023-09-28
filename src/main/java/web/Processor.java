@@ -19,14 +19,16 @@ public class Processor {
         this.message = message;
     }
 
-    public String parseMessage(){
+    public String parseMessage()
+    {
         String op=message.getString("op");
         AbstractRes res;
         switch (op)
         {
-            case "register":{
+            case "register":
+            {
                 DefaultRes defaultRes = new DefaultRes();
-                if(dbop.openAccount(message.getString("username"),message.getString("pwd"),Integer.parseInt(message.getString("type")))){
+                if(dbop.CreateUser(message.getString("username"),message.getString("pwd"),Integer.parseInt(message.getString("type")))){
                     defaultRes.setSuccess(DefaultRes.successCode);
                 }else{
                     defaultRes.setSuccess(DefaultRes.failCode);
@@ -35,7 +37,8 @@ public class Processor {
                 res = defaultRes;
                 break;
             }
-            case "login":{
+            case "login":
+            {
                 LoginRes loginRes = new LoginRes();
                 String name = message.getString("username");
                 if(dbop.getPasswordById(name).equals(message.getString("pwd"))){

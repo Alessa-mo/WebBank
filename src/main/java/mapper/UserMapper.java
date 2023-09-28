@@ -5,11 +5,15 @@ import pojo.User;
 
 import java.util.List;
 
-public interface UserMapper {
-    //开户
-    void openAccount(User user);
+public interface UserMapper
+{
+    //void openAccount(User user);
+    //void deleteAccount(String name);
+
+    void CreateUser(User user);
+    void DeleteUser(String name);
     //注销
-    void deleteAccount(String name);
+
 
 
 //

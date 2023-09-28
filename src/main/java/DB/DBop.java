@@ -73,32 +73,41 @@ public class DBop {
         return res;
     }
 
-    public boolean openAccount(String userName, String userPassword, Integer accountType) {
-        //封装对象
-        if(!hasAccount(userName)){
-            User user = new User();
-            user.setName(userName);
-            user.setPassword(userPassword);
-            user.setAccountType(accountType);
 
+    public boolean CreateUser(String name, String passward, Integer type)
+    {
+        //TODO 创建用户
+        if(!hasAccount(name))
+        {
+            User user = new User(name,passward,type);
             SqlSession sqlSession = sqlSessionFactory.openSession();
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             //4.执行方法
-            userMapper.openAccount(user);
+            userMapper.CreateUser(user);
             sqlSession.commit();
             sqlSession.close();
             return true;
-        }else{
-            return false;
+        }
+        else
+        {
+                return false;
         }
 
     }
+
+    //TODO 销毁用户
+    public boolean DeleteUser(String name)
+    {
+        return false;
+    }
+
+
 
     public void deleteAccount(String name) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         //4.执行方法
-        userMapper.deleteAccount(name);
+        userMapper.DeleteUser(name);
 
         sqlSession.commit();
         sqlSession.close();

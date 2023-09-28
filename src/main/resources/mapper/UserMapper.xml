@@ -3,14 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.UserMapper">
-    <resultMap id="userResultMap" type="pojo.User">
+    <resultMap id="UserResultMap" type="pojo.User">
         <id column="user_name" property="name" />
         <result column="user_password" property="password" />
         <result column="account_type" property="accountType" />
     </resultMap>
 
+
+
+
+
     <!--主键返回:这里resultType="pojo.User",其中有id属性。那么在指定useGeneratedKeys时的keyProperty后,这个值会被赋值到User对象的id属性-->
-    <insert id="openAccount">
+    <insert id="CreateUser">
         insert into user set
         user_name = #{name},
         user_password = #{password}
@@ -19,7 +23,10 @@
         </if>
     </insert>
 
-    <delete id="deleteAccount">
+
+
+
+    <delete id="DeleteUser">
         delete from user
         where user_name = #{name}
     </delete>
@@ -50,6 +57,18 @@
 <!--        from user-->
 <!--        where user_id = #{accountNum}-->
 <!--    </select>-->
+
+
+    <!--TODO JAVA方法映射到SQL语句 创建User -->
+    <insert id="CreateUser">
+        insert into user set
+        user_name = #{name},
+        user_password = #{password},
+        account_type = #{accountType}
+        <if test="accountType != null">
+            ,account_type = #{accountType}
+        </if>
+    </insert>
 
 
 </mapper>
