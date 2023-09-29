@@ -1,20 +1,15 @@
 package pojo;
 
 import java.lang.reflect.Array;
-
+import java.sql.Time;
 
 
 public class Comment
 {
     //TODO 评论
-    public enum CommentBody
-    {
-        Business,
-        ShopItem
-    }
-
     int ID;
     String Contents;
     float[] CommentSequence;
-    CommentBody MainBody;
+    Time CommentTime;
+    Entity Target;//评论目标
 }

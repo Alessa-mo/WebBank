@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import json.*;
 import com.alibaba.fastjson.JSON;
 import DB.DBop;
+import pojo.Entity;
+import pojo.ShopItem;
+import pojo.Util;
 
 import java.io.IOException;
 
@@ -40,15 +43,51 @@ public class Processor {
             case "login":
             {
                 LoginRes loginRes = new LoginRes();
-                String name = message.getString("username");
-                if(dbop.getPasswordById(name).equals(message.getString("pwd"))){
+                String username = message.getString("username");
+                if(dbop.getPasswordById(username).equals(message.getString("pwd"))){
                     loginRes.setSuccess(LoginRes.successCode);
-                    loginRes.setAccountType(dbop.getAccountTypeById(name));
+                    loginRes.setAccountType(dbop.getAccountTypeById(username));
                 }else{
                     loginRes.setSuccess(LoginRes.failCode);
                     loginRes.setWrongMessage("用户名或密码错误");
                 }
                 res = loginRes;
+                break;
+            }
+
+            case "LoadShopItems":
+            {
+                //TODO 加载商店商品 不知道是否正确，需检查
+                LoadShopItemRes LsiRes = new LoadShopItemRes();
+                String BusinessName = message.getString("username");
+                if(dbop.hasAccount(BusinessName))
+                {
+                    LsiRes.setSuccess(LoadShopItemRes.successCode);
+                    LsiRes.FillShopItems(dbop.getShopItemsById(BusinessName));
+                }
+                else {
+                    LsiRes.setSuccess(LoadShopItemRes.failCode);
+                    LsiRes.setWrongMessage("不存在当前商家");
+                }
+                res = LsiRes;
+                break;
+            }
+
+            case "LoadOrders":
+            {
+                LoadOrderRes LoRes = new LoadOrderRes();
+                String name = message.getString("username");
+                if(dbop.hasAccount(name))
+                {
+                    LoRes.setSuccess(LoadOrderRes.successCode);
+                    LoRes.FillOrdersByName(dbop.getOrdersById(name));
+                }
+                else
+                {
+                    LoRes.setSuccess(LoadOrderRes.failCode);
+                    LoRes.setWrongMessage("不存在当前商家");
+                }
+                res = LoRes;
                 break;
             }
 

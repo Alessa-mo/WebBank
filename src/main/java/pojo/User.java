@@ -14,10 +14,10 @@ public class User
 {
     protected String Name;
     protected String Passward;
-    protected Integer Type;
+    protected Entity Type;
 
     public User(){}
-    public User(String name,String passward,Integer type)
+    public User(String name,String passward,Entity type)
     {
         this.Name = name;
         this.Passward = passward;
@@ -41,11 +41,11 @@ public class User
         this.Passward = password;
     }
 
-    public Integer getAccountType() {
+    public Entity getAccountType() {
         return this.Type;
     }
 
-    public void setAccountType(Integer accountType) {
+    public void setAccountType(Entity accountType) {
         this.Type = accountType;
     }
 

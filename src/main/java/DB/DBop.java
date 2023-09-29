@@ -6,10 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.SqlSessionManager;
-import pojo.User;
+import pojo.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /// 数据库操作对象
 public class DBop {
@@ -63,10 +64,11 @@ public class DBop {
 
     public boolean CreateUser(String name, String passward, Integer type)
     {
+        Entity tmp = Util.Int2Entity(type);
         //TODO 创建用户
         if(!hasAccount(name))
         {
-            User user = new User(name,passward,type);
+            User user = new User(name,passward,tmp);
             SqlSession sqlSession = sqlSessionFactory.openSession();
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             //4.执行方法
@@ -121,4 +123,24 @@ public class DBop {
         sqlSession.close();
         return res;
     }
+
+
+
+
+    public List<ShopItem> getShopItemsById(String BusinessName)
+    {
+        //TODO 从数据库查找 商家的商品
+        return null;
+    }
+
+    public List<Order> getOrdersById(String name)
+    {
+        //TODO 根据主体查找它的订单  只能是商家、客户、骑手
+        return null;
+    }
+
+
+
+
+
 }
