@@ -49,19 +49,6 @@ public class DBop {
         return DBOP;
     }
 
-//    public String getPasswordById(String name) {
-////        SqlSession sqlSession = sqlSessionFactory.openSession();
-////        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-//        //4.执行方法
-//        //String res = userMapper.getPasswordById(accountNum);
-//
-//        //使用sqlSessionManager,可以省去前后的open与commit等操作
-//        String res = sqlSessionManager.getMapper(UserMapper.class).getPasswordById(name);
-//
-////        sqlSession.commit();
-////        sqlSession.close();
-//        return res;
-//    }
     public String getPasswordById(String name) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -102,17 +89,6 @@ public class DBop {
     }
 
 
-
-    public void deleteAccount(String name) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        //4.执行方法
-        userMapper.DeleteUser(name);
-
-        sqlSession.commit();
-        sqlSession.close();
-    }
-
     public Integer getAccountTypeById(String name){
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -124,7 +100,8 @@ public class DBop {
         return res;
     }
 
-    public boolean hasAccount(String name){
+    public boolean hasAccount(String name)
+    {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         System.out.println("检测账户存在性:"+name);

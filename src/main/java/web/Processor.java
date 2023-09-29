@@ -52,7 +52,9 @@ public class Processor {
                 break;
             }
 
-            default:{
+
+            default:
+            {
                 DefaultRes defaultRes = new DefaultRes();
                 defaultRes.setSuccess(DefaultRes.failCode);
                 defaultRes.setWrongMessage("操作码错误");
