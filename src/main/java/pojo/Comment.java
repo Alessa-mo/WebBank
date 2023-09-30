@@ -11,5 +11,6 @@ public class Comment
     String Contents;
     float[] CommentSequence;
     Time CommentTime;
-    Entity Target;//评论目标
+    Entity Target;//评论谁
+    String Orgin; //由谁评论
 }

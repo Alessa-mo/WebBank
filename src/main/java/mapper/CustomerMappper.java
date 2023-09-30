@@ -15,5 +15,6 @@ public interface CustomerMappper
     //查询客户的所有订单
     List<Order> QueryAllOrderByCustomer(String CustomerName);
 
+    //查询客户所有评论
     List<Comment> QueryAllCommentByCustomer(String CustomerName);
 }

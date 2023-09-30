@@ -32,7 +32,6 @@ public class WebSocket {
     @OnMessage
     public void onMessage(String message) throws IOException {
         System.out.println("收到message:\n" + message);
-//        sendEcho(message);
         processor.setMessage(JSON.parseObject(message));
         String res = processor.parseMessage();
         sendEcho(res);

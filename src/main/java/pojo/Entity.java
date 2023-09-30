@@ -13,4 +13,6 @@ public enum Entity
     ShopItem,
     Order,
 
+    Comment,
+
 }

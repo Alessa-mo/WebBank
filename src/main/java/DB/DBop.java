@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.SqlSessionManager;
 import pojo.*;
+import pojo.Comment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +51,8 @@ public class DBop {
         return DBOP;
     }
 
+//User映射函数
+// region
     public String getPasswordById(String name) {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -123,19 +126,33 @@ public class DBop {
         sqlSession.close();
         return res;
     }
+    // endregion
 
 
 
 
-    public List<ShopItem> getShopItemsById(String BusinessName)
+    public List<ShopItem> getShopItemsByName(String BusinessName)
     {
-        //TODO 从数据库查找 商家的商品
+        //TODO 根据商家从数据库查找 商家的商品
         return null;
     }
 
-    public List<Order> getOrdersById(String name)
+    public List<Order> getOrdersByName(String name)
     {
         //TODO 根据主体查找它的订单  只能是商家、客户、骑手
+        return null;
+    }
+
+    public List<Comment> getCommentByName(String name)
+    {
+        //TODO 根据主体查找它的评论，
+        //可能是商家商店的所有评论，某用户所有的评论
+        return null;
+    }
+
+    public List<Comment> getCommentById(int id)
+    {
+        //TODO 根据商品的ID查找它所有评论
         return null;
     }
 

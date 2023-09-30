@@ -7,6 +7,7 @@ import DB.DBop;
 import pojo.Entity;
 import pojo.ShopItem;
 import pojo.Util;
+import pojo.Comment;
 
 import java.io.IOException;
 
@@ -63,7 +64,7 @@ public class Processor {
                 if(dbop.hasAccount(BusinessName))
                 {
                     LsiRes.setSuccess(LoadShopItemRes.successCode);
-                    LsiRes.FillShopItems(dbop.getShopItemsById(BusinessName));
+                    LsiRes.FillShopItems(dbop.getShopItemsByName(BusinessName));
                 }
                 else {
                     LsiRes.setSuccess(LoadShopItemRes.failCode);
@@ -75,12 +76,13 @@ public class Processor {
 
             case "LoadOrders":
             {
+                //TODO 查询订单
                 LoadOrderRes LoRes = new LoadOrderRes();
                 String name = message.getString("username");
                 if(dbop.hasAccount(name))
                 {
                     LoRes.setSuccess(LoadOrderRes.successCode);
-                    LoRes.FillOrdersByName(dbop.getOrdersById(name));
+                    LoRes.FillOrdersByName(dbop.getOrdersByName(name));
                 }
                 else
                 {
@@ -88,6 +90,14 @@ public class Processor {
                     LoRes.setWrongMessage("不存在当前商家");
                 }
                 res = LoRes;
+                break;
+            }
+
+            case "LoadComments":
+            {
+                //TODO 查询评论
+                LoadCommentRes LcRes = new LoadCommentRes();
+                res = LcRes;
                 break;
             }
 
