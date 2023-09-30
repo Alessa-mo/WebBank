@@ -1,8 +1,10 @@
 package DB;
 
+import mapper.StoreMapper;
 import mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionManager;
+import pojo.Store;
 import pojo.User;
 
 import java.io.IOException;
@@ -50,6 +52,7 @@ public class DBop {
 
     public class UserOp {
         private final UserMapper userMapper = sqlSessionManager.getMapper(UserMapper.class);
+
         public boolean hasAccount(String name) {
             System.out.println("DBop:检验账户存在性");
             String res = userMapper.hasAccount(name);
@@ -84,7 +87,35 @@ public class DBop {
     }
 
     public class StoreOp {
+        private final StoreMapper storeMapper = sqlSessionManager.getMapper(StoreMapper.class);
 
+        public void createStore(Store store) {
+            storeMapper.createStore(store);
+        }
+
+        public void deleteStore(String name) {
+            storeMapper.deleteStore(name);
+        }
+
+        public Integer getLocationMemByName(String name) {
+            return storeMapper.getLocationMemByName(name);
+        }
+
+        public String getDetailLocationByName(String name) {
+            return storeMapper.getDetailLocationByName(name);
+        }
+
+        public String getDescribeByName(String name) {
+            return storeMapper.getDescribeByName(name);
+        }
+
+        public Store getStoreByName(String name) {
+            return storeMapper.getStoreByName(name);
+        }
+
+        public void updateStore(Store store) {
+            storeMapper.updateStore(store);
+        }
     }
 
     public class OrdersOp {

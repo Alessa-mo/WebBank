@@ -39,7 +39,7 @@
     <select id="getUserByName" resultMap="userResultMap">
         select user_name,user_password,account_type
         from user
-        where user_name = #{name}
+        where user_name = #{userName}
     </select>
     <update id="updateUser">
         update user
