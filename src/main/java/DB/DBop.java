@@ -48,8 +48,6 @@ public class DBop {
         return DBOP;
     }
 
-
-
     public class UserOp {
         private final UserMapper userMapper = sqlSessionManager.getMapper(UserMapper.class);
         public boolean hasAccount(String name) {
@@ -59,15 +57,9 @@ public class DBop {
         }
 
         //注册
-        public boolean logOn(String userName, String userPassword, Integer userType) {
-            if(hasAccount(userName)){
-                System.out.println("DBop:该账户已存在");
-                return false;
-            } else {
-                User user = new User(userName,userPassword,userType);
-                userMapper.createUser(user);
-                return true;
-            }
+        public void logOn(String userName, String userPassword, Integer userType) {
+            User user = new User(userName,userPassword,userType);
+            userMapper.createUser(user);
         }
 
         public void deleteAccount(String name) {
@@ -84,6 +76,10 @@ public class DBop {
 
         public User getUserByName(String name) {
             return userMapper.getUserByName(name);
+        }
+
+        public void updateUser(User user) {
+            userMapper.updateUser(user);
         }
     }
 

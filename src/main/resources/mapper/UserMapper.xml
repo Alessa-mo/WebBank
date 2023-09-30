@@ -41,4 +41,15 @@
         from user
         where user_name = #{name}
     </select>
+    <update id="updateUser">
+        update user
+        set
+        <if test="userPassword != null and userPassword != ''">
+            user_password = #{userPassword},
+        </if>
+        <if test="userType != null">
+            user_type = #{userType}
+        </if>
+        where user_name = #{userName}
+    </update>
 </mapper>

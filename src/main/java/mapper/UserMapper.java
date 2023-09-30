@@ -19,4 +19,6 @@ public interface UserMapper
 
     //查询指定User表的完整条目，结果绑定至User对象
     User getUserByName(String name);
+
+    void updateUser(User user);
 }
