@@ -28,7 +28,7 @@ public class Processor {
             case "register":
             {
                 DefaultRes defaultRes = new DefaultRes();
-                if(dbop.CreateUser(message.getString("username"),message.getString("pwd"),Integer.parseInt(message.getString("type")))){
+                if(dbop.userOp.logOn(message.getString("username"),message.getString("pwd"),Integer.parseInt(message.getString("type")))){
                     defaultRes.setSuccess(DefaultRes.successCode);
                 }else{
                     defaultRes.setSuccess(DefaultRes.failCode);
@@ -41,9 +41,9 @@ public class Processor {
             {
                 LoginRes loginRes = new LoginRes();
                 String name = message.getString("username");
-                if(dbop.getPasswordById(name).equals(message.getString("pwd"))){
+                if(dbop.userOp.getPasswordByName(name).equals(message.getString("pwd"))){
                     loginRes.setSuccess(LoginRes.successCode);
-                    loginRes.setAccountType(dbop.getAccountTypeById(name));
+                    loginRes.setAccountType(dbop.userOp.getAccountTypeByName(name));
                 }else{
                     loginRes.setSuccess(LoginRes.failCode);
                     loginRes.setWrongMessage("用户名或密码错误");
