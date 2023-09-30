@@ -3,7 +3,6 @@ package mapper;
 import pojo.Comment;
 import pojo.Order;
 import pojo.ShopItem;
-import pojo.ShopItemFrequency;
 
 import java.util.List;
 

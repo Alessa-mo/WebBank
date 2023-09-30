@@ -1,6 +1,6 @@
 package pojo;
 
-public class ShopItemFrequency
+public class Frequency
 {
     //用户购买频次
     String CustomerName;
