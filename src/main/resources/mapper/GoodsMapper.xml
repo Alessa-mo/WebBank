@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.GoodsMapper">
+    <resultMap id="goodsResultMap" type="pojo.Goods">
+        <id column="goods_id" property="goodsID" />
+        <result column="goods_store" property="goodsStore" />
+        <result column="goods_photo_url" property="goodsPhotoURL" />
+        <result column="goods_describe" property="goodsDescribe" />
+        <result column="goods_price" property="goodsPrice" />
+        <result column="goods_sale_amount" property="goodsSaleAmount" />
+    </resultMap>
+
+    <insert id="createGoods" useGeneratedKeys="true" keyProperty="goodsID">
+        insert into goods set
+        goods_store = #{goodsStore},
+        goods_price = #{goodsPrice}
+        <if test="goods_photo_url != null"><!--需确认URL格式的交互情况-->
+            ,store_describe = #{storeDescribe}
+        </if>
+        <if test="goods_describe != null and goods_describe != ''">
+            ,goods_describe = #{goodsDescribe}
+        </if>
+        <if test="goods_sale_amount != null">
+            ,goods_sale_amount = #{goodsSaleAmount}
+        </if>
+    </insert>
+    <delete id="deleteGoods">
+        delete from goods
+        where goods_id = #{goodsID}
+    </delete>
+    <select id="getGoodsByID" resultMap="goodsResultMap">
+        select *
+        from goods
+        where goods_id = #{goodsID}
+    </select>
+    <update id="updateGoods">
+        update goods
+        set
+        <if test="goods_store != null and goods_store != ''">
+            goods_store = #{goodsStore},
+        </if>
+        <if test="goods_photo_url != null">
+            goods_photo_url = #{goodsPhotoURL},
+        </if>
+        <if test="goods_describe != null and goods_describe != ''">
+            goods_describe = #{goodsDescribe},
+        </if>
+        <if test="goods_price != null and goods_price != ''">
+            goods_price = #{goodsPrice},
+        </if>
+        <if test="goods_sale_amount != null">
+            goods_sale_amount = #{goodsSaleAmount}
+        </if>
+    </update>
+    <select id="getAllGoodsOfStore" resultMap="goodsResultMap">
+        select *
+        from goods
+        where goods_store = #{storeName}
+    </select>
+
+</mapper>
