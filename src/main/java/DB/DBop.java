@@ -18,12 +18,12 @@ public class DBop {
     private static boolean flag = true;//单例
     SqlSessionManager sqlSessionManager;
 
-    public UserOp userOp = new UserOp();
-    public StoreOp storeOp = new StoreOp();
-    public OrdersOp ordersOp = new OrdersOp();
-    public GoodsOp goodsOp = new GoodsOp();
-    public FrequencyOp frequencyOp = new FrequencyOp();
-    public CommentOp commentOp = new CommentOp();
+    public UserOp userOp;
+    public StoreOp storeOp;
+    public OrdersOp ordersOp;
+    public GoodsOp goodsOp;
+    public FrequencyOp frequencyOp;
+    public CommentOp commentOp;
 
 
     private DBop() throws IOException {
@@ -39,6 +39,13 @@ public class DBop {
         InputStream inputStream = Resources.getResourceAsStream(resource);
         this.sqlSessionManager = SqlSessionManager.newInstance(inputStream);
         System.out.println("DBop:数据库连接成功");
+
+        userOp = new UserOp();
+        storeOp = new StoreOp();
+        ordersOp = new OrdersOp();
+        goodsOp = new GoodsOp();
+        frequencyOp = new FrequencyOp();
+        commentOp = new CommentOp();
     }
 
     public volatile static DBop DBOP;
