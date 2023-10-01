@@ -1,13 +1,9 @@
 package DB;
 
-import mapper.UserMapper;
+import mapper.*;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.SqlSessionManager;
 import pojo.*;
-import pojo.Comment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +12,15 @@ import java.util.List;
 /// 数据库操作对象
 public class DBop {
     private static boolean flag = true;//单例
-    SqlSessionFactory sqlSessionFactory;
     SqlSessionManager sqlSessionManager;
+
+    public UserOp userOp;
+    public StoreOp storeOp;
+    public OrdersOp ordersOp;
+    public GoodsOp goodsOp;
+    public FrequencyOp frequencyOp;
+    public CommentOp commentOp;
+
 
     private DBop() throws IOException {
         synchronized (DBop.class){
@@ -27,16 +30,18 @@ public class DBop {
                 throw new RuntimeException();
             }
         }
-
-        //1.加载MyBatis的核心配置文件，获取SqlSessionFactory
+        //加载MyBatis的核心配置文件，获取SqlSessionManager
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
-        this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        //不使用线程不安全的DefaultSqlSession和SqlSessionFactory,改为使用封装的SqlSessionFactory。用法参照方法getPasswordById()
-        //线程安全性的解决方案:将sqlSession置为局部变量
-        inputStream = Resources.getResourceAsStream(resource);
         this.sqlSessionManager = SqlSessionManager.newInstance(inputStream);
-        System.out.println("数据库连接成功");
+        System.out.println("DBop:数据库连接成功");
+
+        userOp = new UserOp();
+        storeOp = new StoreOp();
+        ordersOp = new OrdersOp();
+        goodsOp = new GoodsOp();
+        frequencyOp = new FrequencyOp();
+        commentOp = new CommentOp();
     }
 
     public volatile static DBop DBOP;
@@ -51,113 +56,173 @@ public class DBop {
         return DBOP;
     }
 
-//User映射函数
-// region
-    public String getPasswordById(String name) {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        //4.执行方法
-        String res = userMapper.getPasswordById(name);
+    public class UserOp {
+        private final UserMapper userMapper = sqlSessionManager.getMapper(UserMapper.class);
 
-        sqlSession.commit();
-        sqlSession.close();
-        return res;
-    }
-
-
-    public boolean CreateUser(String name, String passward, Integer type)
-    {
-        Entity tmp = Util.Int2Entity(type);
-        //TODO 创建用户
-        if(!hasAccount(name))
-        {
-            User user = new User(name,passward,tmp);
-            SqlSession sqlSession = sqlSessionFactory.openSession();
-            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            //4.执行方法
-            userMapper.CreateUser(user);
-            sqlSession.commit();
-            sqlSession.close();
-            return true;
-        }
-        else
-        {
-                return false;
+        public boolean hasAccount(String name) {
+            System.out.println("DBop:检验账户存在性");
+            String res = userMapper.hasAccount(name);
+            return res == null || res.isEmpty();
         }
 
+        //注册
+        public void logOn(String userName, String userPassword, Integer userType) {
+            User user = new User(userName,userPassword,userType);
+            userMapper.createUser(user);
+        }
+
+        public void deleteAccount(String name) {
+            userMapper.deleteUser(name);
+        }
+
+        public String getPasswordByName(String name) {
+            return userMapper.getPasswordByName(name);
+        }
+
+        public Integer getAccountTypeByName(String name) {
+            return userMapper.getAccountTypeByName(name);
+        }
+
+        public User getUserByName(String name) {
+            return userMapper.getUserByName(name);
+        }
+
+        public void updateUser(User user) {
+            userMapper.updateUser(user);
+        }
     }
 
-    //TODO 销毁用户
-    public boolean DeleteUser(String name)
-    {
-        return false;
+    public class StoreOp {
+        private final StoreMapper storeMapper = sqlSessionManager.getMapper(StoreMapper.class);
+
+        public void createStore(Store store) {
+            storeMapper.createStore(store);
+        }
+
+        public void deleteStore(String name) {
+            storeMapper.deleteStore(name);
+        }
+
+        public Integer getLocationMemByName(String name) {
+            return storeMapper.getLocationMemByName(name);
+        }
+
+        public String getDetailLocationByName(String name) {
+            return storeMapper.getDetailLocationByName(name);
+        }
+
+        public String getDescribeByName(String name) {
+            return storeMapper.getDescribeByName(name);
+        }
+
+        public Store getStoreByName(String name) {
+            return storeMapper.getStoreByName(name);
+        }
+
+        public void updateStore(Store store) {
+            storeMapper.updateStore(store);
+        }
+
+        public List<Store> getAllStores() {return storeMapper.getAllStores();}
     }
 
+    public class OrdersOp {
+        private final OrdersMapper ordersMapper = sqlSessionManager.getMapper(OrdersMapper.class);
 
-    public Integer getAccountTypeById(String name){
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        //4.执行方法
-        Integer res = userMapper.getAccountTypeById(name);
+        public void createOrder(Orders orders) {
+            ordersMapper.createOrder(orders);
+        }
 
-        sqlSession.commit();
-        sqlSession.close();
-        return res;
+        public void deleteOrder(Integer orderID) {
+            ordersMapper.deleteOrder(orderID);
+        }
+
+        public Orders getOrderByID(Integer orderID) {
+            return ordersMapper.getOrderByID(orderID);
+        }
+
+        public void updateOrder(Orders orders) {
+            ordersMapper.updateOrder(orders);
+        }
+
+        public List<Orders> getAllOngoingOrders() {
+            return ordersMapper.getAllOngoingOrders();
+        }
     }
 
-    public boolean hasAccount(String name)
-    {
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        System.out.println("检测账户存在性:"+name);
-        //4.执行方法
-        String res = userMapper.getAccount(name);
+    public class GoodsOp {
+        private final GoodsMapper goodsMapper = sqlSessionManager.getMapper(GoodsMapper.class);
 
-        sqlSession.commit();
-        sqlSession.close();
-        return res != null;
+        public void createGoods(Goods goods) {
+            goodsMapper.createGoods(goods);
+        }
+
+        public void deleteGoods(Integer goodsID) {
+            goodsMapper.deleteGoods(goodsID);
+        }
+
+        public Goods getGoodsByID(Integer goodsID) {
+            return goodsMapper.getGoodsByID(goodsID);
+        }
+
+        public void updateGoods(Goods goods) {
+            goodsMapper.updateGoods(goods);
+        }
+
+        public List<Goods> getAllGoodsOfStore(String storeName) {
+            return goodsMapper.getAllGoodsOfStore(storeName);
+        }
     }
 
-    public User getUserById(String name){
-        SqlSession sqlSession = sqlSessionFactory.openSession();
-        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        User res = userMapper.getUserById(name);
-        sqlSession.commit();
-        sqlSession.close();
-        return res;
-    }
-    // endregion
+    public class FrequencyOp {
+        private final FrequencyMapper frequencyMapper = sqlSessionManager.getMapper(FrequencyMapper.class);
 
+        public void createFrequency(Frequency frequency) {
+            frequencyMapper.createFrequency(frequency);
+        }
 
+        public void deleteFrequency(String userName, Integer goodsID) {
+            frequencyMapper.deleteFrequency(userName, goodsID);
+        }
 
+        public Frequency getFrequency(String userName, Integer goodsID) {
+            return frequencyMapper.getFrequency(userName, goodsID);
+        }
 
-    public List<ShopItem> getShopItemsByName(String BusinessName)
-    {
-        //TODO 根据商家从数据库查找 商家的商品
-        return null;
-    }
+        public List<Frequency> getFrequencyOfUser(String userName) {
+            return frequencyMapper.getFrequencyOfUser(userName);
+        }
 
-    public List<Order> getOrdersByName(String name)
-    {
-        //TODO 根据主体查找它的订单  只能是商家、客户、骑手
-        return null;
-    }
-
-    public List<Comment> getCommentByName(String name)
-    {
-        //TODO 根据主体查找它的评论，
-        //可能是商家商店的所有评论，某用户所有的评论
-        return null;
+        public void updateFrequency(Frequency frequency) {
+            frequencyMapper.updateFrequency(frequency);
+        }
     }
 
-    public List<Comment> getCommentById(int id)
-    {
-        //TODO 根据商品的ID查找它所有评论
-        return null;
+    public class CommentOp {
+        private final CommentMapper commentMapper = sqlSessionManager.getMapper(CommentMapper.class);
+
+        public void createMapper(Comment comment) {
+            commentMapper.createMapper(comment);
+        }
+
+        public void deleteComment(Integer commentID) {
+            commentMapper.deleteComment(commentID);
+        }
+
+        public Comment getCommentByID(Integer commentID) {
+            return commentMapper.getCommentByID(commentID);
+        }
+
+        public void updateComment(Comment comment) {
+            commentMapper.updateComment(comment);
+        }
+
+        public List<Comment> getCommentsOfGoods(Integer goodsID) {
+            return commentMapper.getCommentsOfGoods(goodsID);
+        }
+
+        public List<Comment> getCommentsOfUser(String userName) {
+            return commentMapper.getCommentsOfUser(userName);
+        }
     }
-
-
-
-
-
 }

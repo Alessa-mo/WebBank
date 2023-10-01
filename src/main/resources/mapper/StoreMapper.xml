@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.StoreMapper">
+    <resultMap id="storeResultMap" type="pojo.Store">
+        <id column="store_name" property="storeName" />
+        <result column="store_location" property="storeLocation" />
+        <result column="store_detail_location" property="storeDetailLocation" />
+        <result column="store_describe" property="storeDescribe" />
+    </resultMap>
+
+    <insert id="createStore">
+        insert into store set
+        store_name = #{storeName},
+        store_location = #{storeLocation},
+        store_detail_location = #{storeDetailLocation}
+        <if test="store_describe != null and store_describe != ''">
+            ,store_describe = #{storeDescribe}
+        </if>
+    </insert>
+    <delete id="deleteStore">
+        delete from store
+        where store_name = #{storeName}
+    </delete>
+    <select id="getLocationMemByName" resultType="java.lang.Integer">
+        select store_location
+        from store
+        where store_name = #{storeName}
+    </select>
+    <select id="getDetailLocationByName" resultType="java.lang.String">
+        select store_detail_location
+        from store
+        where store_name = #{storeName}
+    </select>
+    <select id="getDescribeByName" resultType="java.lang.String">
+        select store_describe
+        from store
+        where store_name = #{storeName}
+    </select>
+    <select id="getStoreByName" resultMap="storeResultMap">
+        select store_name,store_location,store_detail_location,store_describe
+        from user
+        where store_name = #{storeName}
+    </select>
+    <update id="updateStore">
+        update store
+        set
+        <if test="storeLocation != null">
+            store_location = #{storeLocation},
+        </if>
+        <if test="storeDetailLocation != null and storeDetailLocation != ''">
+            store_detail_location = #{storeDetailLocation},
+        </if>
+        <if test="storeDescribe != null and storeDescribe != ''">
+            store_describe = #{storeDescribe}
+        </if>
+        where store_name = #{storeName}
+    </update>
+    <select id="getAllStores" resultMap="storeResultMap">
+        select *
+        from store
+    </select>
+</mapper>

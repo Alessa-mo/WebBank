@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.OrdersMapper">
+    <resultMap id="ordersResultMap" type="pojo.Orders">
+        <id column="order_id" property="orderID" />
+        <result column="order_orderer" property="orderOrderer" />
+        <result column="order_store" property="orderStore" />
+        <result column="order_list" property="orderList" />
+        <result column="order_total_price" property="orderTotalPrice" />
+        <result column="order_type" property="orderType" />
+        <result column="order_time" property="orderTime" />
+        <result column="order_status" property="orderStatus" />
+    </resultMap>
+
+    <insert id="createOrder" useGeneratedKeys="true" keyProperty="orderID">
+        insert into orders set
+        order_orderer = #{orderOrderer},
+        order_store = #{orderStore},
+        order_list = #{orderList},
+        order_total_price = #{orderTotalPrice},
+        order_type = #{orderType},
+        order_time = #{orderTime},
+        order_status = #{orderStatus}
+    </insert>
+    <delete id="deleteOrder">
+        delete from orders
+        where order_id = #{orderID}
+    </delete>
+    <select id="getOrderByID" resultMap="ordersResultMap">
+        select order_id,order_orderer,order_store,order_list,order_total_price,order_type,order_time,order_status
+        from orders
+        where order_id = #{orderID}
+    </select>
+    <update id="updateOrder">
+        update orders
+        set
+        <if test="order_orderer != null and order_orderer != ''">
+            order_orderer = #{orderOrderer},
+        </if>
+        <if test="order_store != null and order_store != ''">
+            order_store = #{orderStore},
+        </if>
+        <if test="order_list != null and order_list != ''">
+            order_list = #{orderList},
+        </if>
+        <if test="order_total_price != null and order_total_price != ''">
+            order_total_price = #{orderTotalPrice},
+        </if>
+        <if test="order_type != null">
+            order_type = #{orderType},
+        </if>
+        <if test="order_time != null and order_time != ''">
+            order_time = #{orderTime},<!--需验证DateTime格式-->
+        </if>
+        <if test="order_status != null">
+            order_status = #{orderStatus},
+        </if>
+    </update>
+    <select id="getAllOngoingOrders" resultMap="ordersResultMap">
+        select *
+        from orders
+        where order_status = 0
+    </select>
+</mapper>
