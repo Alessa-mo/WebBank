@@ -1,9 +1,12 @@
 package web;
 
 import com.alibaba.fastjson.JSON;
+import pojo.User;
+
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @ServerEndpoint("/websocket")
 public class WebSocket {
     private static final Map<WebSocket, String> clients = new ConcurrentHashMap<>();
+    public static final Map<Session, User> LinkMap = new HashMap<Session,User>();
     private Session session;
     private Processor processor = new Processor();
 
@@ -18,7 +22,8 @@ public class WebSocket {
     }
 
     @OnOpen
-    public void onOpen(Session session) throws IOException {
+    public void onOpen(Session session) throws IOException
+    {
         this.session = session;
         clients.put(this, "*unnamed");
         System.out.println("新用户已连接,webSocket:" + this);
@@ -32,9 +37,8 @@ public class WebSocket {
     @OnMessage
     public void onMessage(String message) throws IOException {
         System.out.println("收到message:\n" + message);
-//        sendEcho(message);
         processor.setMessage(JSON.parseObject(message));
-        String res = processor.parseMessage();
+        String res = processor.parseMessage(this.session);
         sendEcho(res);
     }
 

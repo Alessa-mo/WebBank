@@ -1,0 +1,6 @@
+{
+    "op": register / Login
+    "username":XXX
+    "pwd":XXX
+    "type":XXX
+}
