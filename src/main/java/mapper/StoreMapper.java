@@ -7,17 +7,17 @@ import java.util.List;
 public interface StoreMapper {
     void createStore(Store store);
 
-    void deleteStore(String name);
+    void deleteStore(String storeName);
 
-    Integer getLocationMemByName(String name);
+    Integer getLocationMemByName(String storeName);
 
-    String getDetailLocationByName(String name);
+    String getDetailLocationByName(String storeName);
 
-    String getDescribeByName(String name);
+    String getDescribeByName(String storeName);
 
-    Store getStoreByName(String name);
+    Store getStoreByName(String storeName);
 
-    void updateStore(Store store);
+    void updateStore(Store storeName);
 
     List<Store> getAllStores();
 
