@@ -13,9 +13,6 @@ package pojo;
 //        order_status int not null
 //        );
 
-import com.alibaba.fastjson.JSON;
-import org.joda.time.DateTime;
-
 public class Orders {
     protected Integer orderID;
     protected String orderOrderer;
@@ -23,10 +20,10 @@ public class Orders {
     protected String orderList;
     protected String orderTotalPrice;
     protected String orderType;
-    protected DateTime orderTime;
+    protected String orderTime;
     protected Integer orderStatus;
 
-    public Orders(Integer orderID, String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
+    public Orders(Integer orderID, String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, String orderTime, Integer orderStatus) {
         this.orderID = orderID;
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
@@ -37,7 +34,7 @@ public class Orders {
         this.orderStatus = orderStatus;
     }
 
-    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
+    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, String orderTime, Integer orderStatus) {
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
         this.orderList = orderList;
@@ -47,7 +44,7 @@ public class Orders {
         this.orderStatus = orderStatus;
     }
 
-    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime) {
+    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, String orderTime) {
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
         this.orderList = orderList;
@@ -104,11 +101,11 @@ public class Orders {
         this.orderType = orderType;
     }
 
-    public DateTime getOrderTime() {
+    public String getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(DateTime orderTime) {
+    public void setOrderTime(String orderTime) {
         this.orderTime = orderTime;
     }
 

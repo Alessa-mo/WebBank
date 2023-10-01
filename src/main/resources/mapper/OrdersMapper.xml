@@ -51,7 +51,7 @@
         <if test="order_type != null">
             order_type = #{orderType},
         </if>
-        <if test="order_time != null">
+        <if test="order_time != null and order_time != ''">
             order_time = #{orderTime},<!--需验证DateTime格式-->
         </if>
         <if test="order_status != null">
