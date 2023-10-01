@@ -1,14 +1,17 @@
 package DB;
 
+import mapper.OrdersMapper;
 import mapper.StoreMapper;
 import mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionManager;
+import pojo.Orders;
 import pojo.Store;
 import pojo.User;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /// 数据库操作对象
 public class DBop {
@@ -118,10 +121,28 @@ public class DBop {
         public void updateStore(Store store) {
             storeMapper.updateStore(store);
         }
+
+        public List<Store> getAllStores() {return storeMapper.getAllStores();}
     }
 
     public class OrdersOp {
+        private final OrdersMapper ordersMapper = sqlSessionManager.getMapper(OrdersMapper.class);
 
+        public void createOrder(Orders orders) {
+            ordersMapper.createOrder(orders);
+        }
+
+        public void deleteOrder(Integer orderID) {
+            ordersMapper.deleteOrder(orderID);
+        }
+
+        public Orders getOrderByID(Integer orderID) {
+            return ordersMapper.getOrderByID(orderID);
+        }
+
+        public void updateOrder(Orders orders) {
+            ordersMapper.updateOrder(orders);
+        }
     }
 
     public class GoodsOp {
