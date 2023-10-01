@@ -1,6 +1,9 @@
 package mapper;
 
 import pojo.Store;
+
+import java.util.List;
+
 public interface StoreMapper {
     void createStore(Store store);
 
@@ -15,5 +18,7 @@ public interface StoreMapper {
     Store getStoreByName(String name);
 
     void updateStore(Store store);
+
+    List<Store> getAllStores();
 
 }

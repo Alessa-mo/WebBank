@@ -11,6 +11,7 @@ import pojo.User;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /// 数据库操作对象
 public class DBop {
@@ -118,6 +119,8 @@ public class DBop {
         public void updateStore(Store store) {
             storeMapper.updateStore(store);
         }
+
+        public List<Store> getAllStores() {return storeMapper.getAllStores();}
     }
 
     public class OrdersOp {
