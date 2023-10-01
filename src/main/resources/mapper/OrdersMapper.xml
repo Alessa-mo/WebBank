@@ -18,7 +18,7 @@
         insert into orders set
         order_orderer = #{orderOrderer},
         order_store = #{orderStore},
-        order_list = #{orderList},<!--需验证json格式-->
+        order_list = #{orderList},
         order_total_price = #{orderTotalPrice},
         order_type = #{orderType},
         order_time = #{orderTime},
@@ -42,7 +42,7 @@
         <if test="order_store != null and order_store != ''">
             order_store = #{orderStore},
         </if>
-        <if test="order_list != null">
+        <if test="order_list != null and order_list != ''">
             order_list = #{orderList},
         </if>
         <if test="order_total_price != null and order_total_price != ''">

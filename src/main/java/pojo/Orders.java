@@ -20,13 +20,13 @@ public class Orders {
     protected Integer orderID;
     protected String orderOrderer;
     protected String orderStore;
-    protected JSON orderList;
+    protected String orderList;
     protected String orderTotalPrice;
     protected String orderType;
     protected DateTime orderTime;
     protected Integer orderStatus;
 
-    public Orders(Integer orderID, String orderOrderer, String orderStore, JSON orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
+    public Orders(Integer orderID, String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
         this.orderID = orderID;
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
@@ -37,7 +37,7 @@ public class Orders {
         this.orderStatus = orderStatus;
     }
 
-    public Orders(String orderOrderer, String orderStore, JSON orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
+    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime, Integer orderStatus) {
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
         this.orderList = orderList;
@@ -47,7 +47,7 @@ public class Orders {
         this.orderStatus = orderStatus;
     }
 
-    public Orders(String orderOrderer, String orderStore, JSON orderList, String orderTotalPrice, String orderType, DateTime orderTime) {
+    public Orders(String orderOrderer, String orderStore, String orderList, String orderTotalPrice, String orderType, DateTime orderTime) {
         this.orderOrderer = orderOrderer;
         this.orderStore = orderStore;
         this.orderList = orderList;
@@ -80,11 +80,11 @@ public class Orders {
         this.orderStore = orderStore;
     }
 
-    public JSON getOrderList() {
+    public String getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(JSON orderList) {
+    public void setOrderList(String orderList) {
         this.orderList = orderList;
     }
 
@@ -126,7 +126,7 @@ public class Orders {
                 "orderID=" + orderID +
                 ", orderOrderer='" + orderOrderer + '\'' +
                 ", orderStore='" + orderStore + '\'' +
-                ", orderList=" + orderList.toString() +
+                ", orderList=" + orderList +
                 ", orderTotalPrice='" + orderTotalPrice + '\'' +
                 ", orderType='" + orderType + '\'' +
                 ", orderTime=" + orderTime +
