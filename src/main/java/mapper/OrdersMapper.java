@@ -2,6 +2,8 @@ package mapper;
 
 import pojo.Orders;
 
+import java.util.List;
+
 public interface OrdersMapper {
     void createOrder(Orders orders);
 
@@ -10,5 +12,7 @@ public interface OrdersMapper {
     Orders getOrderByID(Integer orderID);
 
     void updateOrder(Orders orders);
+
+    List<Orders> getAllOngoingOrders();
 
 }

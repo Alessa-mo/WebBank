@@ -141,6 +141,10 @@ public class DBop {
         public void updateOrder(Orders orders) {
             ordersMapper.updateOrder(orders);
         }
+
+        public List<Orders> getAllOngoingOrders() {
+            return ordersMapper.getAllOngoingOrders();
+        }
     }
 
     public class GoodsOp {
