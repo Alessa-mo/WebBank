@@ -11,20 +11,15 @@ package pojo;
 //        goods_sale_amount int default 0
 //        );
 
-import java.net.URL;
-
 public class Goods {
     protected Integer goodsID;
     protected String goodsStore;
-    protected URL goodsPhotoURL;
+    protected String goodsPhotoURL;
     protected String goodsDescribe;
     protected String goodsPrice;
     protected Integer goodsSaleAmount;
 
-    //空构造
-    public Goods(){}
-
-    public Goods(Integer goodsID, String goodsStore, URL goodsPhotoURL, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
+    public Goods(Integer goodsID, String goodsStore, String goodsPhotoURL, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
         this.goodsID = goodsID;
         this.goodsStore = goodsStore;
         this.goodsPhotoURL = goodsPhotoURL;
@@ -33,7 +28,7 @@ public class Goods {
         this.goodsSaleAmount = goodsSaleAmount;
     }
 
-    public Goods(String goodsStore, URL goodsPhotoURL, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
+    public Goods(String goodsStore, String goodsPhotoURL, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
         this.goodsStore = goodsStore;
         this.goodsPhotoURL = goodsPhotoURL;
         this.goodsDescribe = goodsDescribe;
@@ -41,21 +36,7 @@ public class Goods {
         this.goodsSaleAmount = goodsSaleAmount;
     }
 
-    public Goods(String goodsStore, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
-        this.goodsStore = goodsStore;
-        this.goodsDescribe = goodsDescribe;
-        this.goodsPrice = goodsPrice;
-        this.goodsSaleAmount = goodsSaleAmount;
-    }
-
-    public Goods(String goodsStore, URL goodsPhotoURL, String goodsDescribe, Integer goodsSaleAmount) {
-        this.goodsStore = goodsStore;
-        this.goodsPhotoURL = goodsPhotoURL;
-        this.goodsDescribe = goodsDescribe;
-        this.goodsSaleAmount = goodsSaleAmount;
-    }
-
-    public Goods(String goodsStore, URL goodsPhotoURL, String goodsDescribe, String goodsPrice) {
+    public Goods(String goodsStore, String goodsPhotoURL, String goodsDescribe, String goodsPrice) {
         this.goodsStore = goodsStore;
         this.goodsPhotoURL = goodsPhotoURL;
         this.goodsDescribe = goodsDescribe;
@@ -66,18 +47,6 @@ public class Goods {
         this.goodsStore = goodsStore;
         this.goodsPrice = goodsPrice;
         this.goodsSaleAmount = goodsSaleAmount;
-    }
-
-    public Goods(String goodsStore, String goodsDescribe, String goodsPrice) {
-        this.goodsStore = goodsStore;
-        this.goodsDescribe = goodsDescribe;
-        this.goodsPrice = goodsPrice;
-    }
-
-    public Goods(String goodsStore, URL goodsPhotoURL, String goodsPrice) {
-        this.goodsStore = goodsStore;
-        this.goodsPhotoURL = goodsPhotoURL;
-        this.goodsPrice = goodsPrice;
     }
 
     public Goods(String goodsStore, String goodsPrice) {
@@ -101,11 +70,11 @@ public class Goods {
         this.goodsStore = goodsStore;
     }
 
-    public URL getGoodsPhotoURL() {
+    public String getGoodsPhotoURL() {
         return goodsPhotoURL;
     }
 
-    public void setGoodsPhotoURL(URL goodsPhotoURL) {
+    public void setGoodsPhotoURL(String goodsPhotoURL) {
         this.goodsPhotoURL = goodsPhotoURL;
     }
 

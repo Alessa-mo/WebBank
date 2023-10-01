@@ -16,7 +16,7 @@
         insert into goods set
         goods_store = #{goodsStore},
         goods_price = #{goodsPrice}
-        <if test="goods_photo_url != null"><!--需确认URL格式的交互情况-->
+        <if test="goods_photo_url != null and goods_photo_url != ''">
             ,store_describe = #{storeDescribe}
         </if>
         <if test="goods_describe != null and goods_describe != ''">
