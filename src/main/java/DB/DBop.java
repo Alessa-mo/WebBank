@@ -199,6 +199,30 @@ public class DBop {
     }
 
     public class CommentOp {
+        private final CommentMapper commentMapper = sqlSessionManager.getMapper(CommentMapper.class);
 
+        public void createMapper(Comment comment) {
+            commentMapper.createMapper(comment);
+        }
+
+        public void deleteComment(Integer commentID) {
+            commentMapper.deleteComment(commentID);
+        }
+
+        public Comment getCommentByID(Integer commentID) {
+            return commentMapper.getCommentByID(commentID);
+        }
+
+        public void updateComment(Comment comment) {
+            commentMapper.updateComment(comment);
+        }
+
+        public List<Comment> getCommentsOfGoods(Integer goodsID) {
+            return commentMapper.getCommentsOfGoods(goodsID);
+        }
+
+        public List<Comment> getCommentsOfUser(String userName) {
+            return commentMapper.getCommentsOfUser(userName);
+        }
     }
 }

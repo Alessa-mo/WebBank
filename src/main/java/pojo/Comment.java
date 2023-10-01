@@ -10,16 +10,14 @@ package pojo;
 //        comment_text varchar(1024) not null
 //        );
 
-import com.alibaba.fastjson.JSON;
-
 public class Comment {
     protected Integer commentID;
     protected String commentName;
     protected Integer commentGoods;
-    protected JSON commentTags;
+    protected String commentTags;
     protected String commentText;
 
-    public Comment(Integer commentID, String commentName, Integer commentGoods, JSON commentTags, String commentText) {
+    public Comment(Integer commentID, String commentName, Integer commentGoods, String commentTags, String commentText) {
         this.commentID = commentID;
         this.commentName = commentName;
         this.commentGoods = commentGoods;
@@ -27,10 +25,50 @@ public class Comment {
         this.commentText = commentText;
     }
 
-    public Comment(String commentName, Integer commentGoods, JSON commentTags, String commentText) {
+    public Comment(String commentName, Integer commentGoods, String commentTags, String commentText) {
         this.commentName = commentName;
         this.commentGoods = commentGoods;
         this.commentTags = commentTags;
+        this.commentText = commentText;
+    }
+
+    public Integer getCommentID() {
+        return commentID;
+    }
+
+    public void setCommentID(Integer commentID) {
+        this.commentID = commentID;
+    }
+
+    public String getCommentName() {
+        return commentName;
+    }
+
+    public void setCommentName(String commentName) {
+        this.commentName = commentName;
+    }
+
+    public Integer getCommentGoods() {
+        return commentGoods;
+    }
+
+    public void setCommentGoods(Integer commentGoods) {
+        this.commentGoods = commentGoods;
+    }
+
+    public String getCommentTags() {
+        return commentTags;
+    }
+
+    public void setCommentTags(String commentTags) {
+        this.commentTags = commentTags;
+    }
+
+    public String getCommentText() {
+        return commentText;
+    }
+
+    public void setCommentText(String commentText) {
         this.commentText = commentText;
     }
 
@@ -40,7 +78,7 @@ public class Comment {
                 "commentID=" + commentID +
                 ", commentName='" + commentName + '\'' +
                 ", commentGoods=" + commentGoods +
-                ", commentTags=" + commentTags.toString() +
+                ", commentTags=" + commentTags +
                 ", commentText='" + commentText + '\'' +
                 '}';
     }

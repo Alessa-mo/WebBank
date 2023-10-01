@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CommentMapper">
+    <resultMap id="commentResultMap" type="pojo.Comment">
+        <id column="comment_id" property="commentID" />
+        <result column="comment_name" property="commentName" />
+        <result column="comment_goods" property="commentGoods" />
+        <result column="comment_tags" property="commentTags" />
+        <result column="comment_text" property="commentText" />
+    </resultMap>
+
+    <insert id="createMapper" useGeneratedKeys="true" keyProperty="commentID">
+        insert into comment set
+        comment_name = #{commentName},
+        comment_goods = #{commentGoods},
+        comment_tags = #{commentTags},
+        comment_text = #{commentText}
+    </insert>
+    <delete id="deleteComment">
+        delete from comment
+        where comment_id = #{commentID}
+    </delete>
+    <select id="getCommentByID" resultMap="commentResultMap">
+        select *
+        from comment
+        where comment_id = #{commentID}
+    </select>
+    <update id="updateComment">
+        update comment
+        set
+        <if test="comment_name != null and comment_name != ''">
+            comment_name = #{commentName},
+        </if>
+        <if test="comment_goods != null">
+            comment_goods = #{commentGoods},
+        </if>
+        <if test="comment_tags != null and comment_tags != ''">
+            comment_tags = #{commentTags},
+        </if>
+        <if test="comment_text != null and comment_text != ''">
+            comment_text = #{commentText},
+        </if>
+    </update>
+    <select id="getCommentsOfGoods" resultMap="commentResultMap">
+        select *
+        from comment
+        where comment_goods = #{goodsID}
+    </select>
+    <select id="getCommentsOfUser" resultMap="commentResultMap">
+        select *
+        from comment
+        where comment_name = #{userName}
+    </select>
+
+</mapper>
