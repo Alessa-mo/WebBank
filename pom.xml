@@ -89,6 +89,12 @@
       <version>1.1</version>
       <scope>provided</scope><!--由于tomcat自带了websocket-api，为避免冲突,得用provided修饰 -->
     </dependency>
+
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.9.8</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>

@@ -1,61 +1,63 @@
 package pojo;
 
 // 数据库表条目对象
-/**数据库表:
- * create table user (
- * user_id int not null primary key auto_increment,
- * user_name varchar(20) not null,
- * user_password varchar(20) not null,
- * balance double default 0,
- * account_type int default 0);
- */
+//mysql构建:
+//create table user (
+//        user_name varchar(20) not null primary key,
+//        user_password varchar(20) not null,
+//        user_type int default 0
+//        );
+
 
 public class User
 {
-    protected String Name;
-    protected String Passward;
-    protected Entity Type;
+    protected String userName;
+    protected String userPassword;
+    protected Integer userType;
 
     public User(){}
-    public User(String name,String passward,Entity type)
-    {
-        this.Name = name;
-        this.Passward = passward;
-        this.Type = type;
+
+    public User(String userName, String userPassword, Integer userType) {
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userType = userType;
     }
 
-
-    public String getName() {
-        return Name;
+    public User(String userName, String userPassword) {
+        this.userName = userName;
+        this.userPassword = userPassword;
     }
 
-    public void setName(String name) {
-        this.Name = name;
+    public String getUserName() {
+        return userName;
     }
 
-    public String getPassword() {
-        return Passward;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public void setPassword(String password) {
-        this.Passward = password;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public Entity getAccountType() {
-        return this.Type;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-    public void setAccountType(Entity accountType) {
-        this.Type = accountType;
+    public Integer getUserType() {
+        return userType;
+    }
+
+    public void setUserType(Integer userType) {
+        this.userType = userType;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                ", name='" + Name + '\'' +
-                ", password='" + Passward + '\'' +
-                ", accountType=" + Type +
+                "userName='" + userName + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userType=" + userType +
                 '}';
     }
-
 }
