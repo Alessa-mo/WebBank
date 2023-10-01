@@ -21,6 +21,9 @@ public class Goods {
     protected String goodsPrice;
     protected Integer goodsSaleAmount;
 
+    //空构造
+    public Goods(){}
+
     public Goods(Integer goodsID, String goodsStore, URL goodsPhotoURL, String goodsDescribe, String goodsPrice, Integer goodsSaleAmount) {
         this.goodsID = goodsID;
         this.goodsStore = goodsStore;

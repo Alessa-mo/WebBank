@@ -25,6 +25,8 @@ public class Orders {
     protected DateTime orderTime;
     protected Integer orderStatus;
 
+    public Orders(){}
+
     public Orders(Integer orderID, String orderOrderer, String orderStore, JSON orderList, String orderType, DateTime orderTime, Integer orderStatus) {
         this.orderID = orderID;
         this.orderOrderer = orderOrderer;

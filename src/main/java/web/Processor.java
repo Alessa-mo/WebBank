@@ -27,24 +27,37 @@ public class Processor {
         AbstractRes res;
         switch (op)
         {
-            case 0: {
+            case 0://注册
+            {
                 DefaultRes defaultRes = new DefaultRes();
-                if (dbop.CreateUser(message.getString("username"), message.getString("pwd"), Integer.parseInt(message.getString("type")))) {
+                String username = message.getString("username");
+                if (dbop.userOp.hasAccount(username))
+                {
                     defaultRes.setSuccess(DefaultRes.successCode);
-                } else {
+
+                    String pwd = message.getString("pwd");
+                    Integer type = message.getInteger("type");
+                    dbop.userOp.logOn(username,pwd,type);
+                }
+                else
+                {
                     defaultRes.setSuccess(DefaultRes.failCode);
                     defaultRes.setWrongMessage("用户名已存在");
                 }
                 res = defaultRes;
                 break;
             }
-            case 1: {
+            case 1:  //登录
+            {
                 LoginRes loginRes = new LoginRes();
                 String username = message.getString("username");
-                if (dbop.getPasswordById(username).equals(message.getString("pwd"))) {
+                if (dbop.userOp.getPasswordByName(username).equals(message.getString("pwd")))
+                {
                     loginRes.setSuccess(LoginRes.successCode);
-                    loginRes.setAccountType(dbop.getAccountTypeById(username));
-                } else {
+                    loginRes.setAccountType(dbop.userOp.getAccountTypeByName(username));
+                }
+                else
+                {
                     loginRes.setSuccess(LoginRes.failCode);
                     loginRes.setWrongMessage("用户名或密码错误");
                 }
@@ -54,8 +67,10 @@ public class Processor {
 
             case 2:
             {
-                //TODO 加载所有商家
-                LoadShopRes LsRes = new LoadShopRes();
+                //TODO 加载所有商店
+                LoadStoreRes LsRes = new LoadStoreRes();
+
+
 
                 res = LsRes;
                 break;
@@ -64,8 +79,8 @@ public class Processor {
             case 3:
             {
                 //TODO 加载商店商品
-                LoadShopItemRes LsiRes = new LoadShopItemRes();
-                String Business = message.getString("Business");
+                LoadGoodRes LsiRes = new LoadGoodRes();
+                String Store = message.getString("Store");
                 res = LsiRes;
                 break;
             }
@@ -75,11 +90,11 @@ public class Processor {
                 //TODO 获取来自客户下的订单 并插入数据库
                 DefaultRes dres = new DefaultRes();
                 String Customer = message.getString("Customer");
-                String Business = message.getString("Business");
-                Order o = new Order();
+                String Store = message.getString("Store");
+                Orders o = new Orders();
 
                 //收到订单后发送给商家和用户
-                SendOrder(o, Business);
+                SendOrder(o, Store);
                 SendOrder(o, Customer);
 
                 res = dres;
@@ -106,10 +121,10 @@ public class Processor {
             {
                 //TODO 获取来自客户的评论
                 DefaultRes res7 = new DefaultRes();
-                String Business = message.getString("Business");
+                String Store = message.getString("Store");
                 Comment comment = new Comment();
                 //推送给商家
-                SendComment(comment, Business);
+                SendComment(comment, Store);
                 res = res7;
                 break;
             }
@@ -125,11 +140,61 @@ public class Processor {
             case 9:
             {
                 //TODO 加载某用户的购买频次表
-                LoadFrequency LfRes = new LoadFrequency();
+                LoadFrequencyRes LfRes = new LoadFrequencyRes();
                 String Customer = message.getString("Customer");
                 res = LfRes;
                 break;
             }
+
+            case 10:
+            {
+                //TODO 创建商店
+                DefaultRes res10 = new DefaultRes();
+                String name = message.getString("Name");//MainKey
+                Integer area = message.getInteger("Area");
+                String  detailLocation = message.getString("DetailLocation");
+                String description = message.getString("Description");
+
+                if(dbop.storeOp.getStoreByName(name)==null)
+                {
+                    res10.setSuccess(DefaultRes.successCode);
+                    Store newStore = new Store(name,area,detailLocation,description);
+                    dbop.storeOp.createStore(newStore);
+                }
+                else
+                {
+
+                    res10.setSuccess(DefaultRes.failCode);
+                    res10.setWrongMessage("该商店名已存在");
+                }
+                res = res10;
+                break;
+            }
+
+            case 11:
+            {
+                //TODO 商家给商店添加商品
+                DefaultRes res11 = new DefaultRes();
+                res = res11;
+                break;
+            }
+
+            case 12:
+            {
+                //TODO 商家更新商品信息
+                DefaultRes res12 = new DefaultRes();
+                res = res12;
+                break;
+            }
+
+            case 13:
+            {
+                //TODO 商家更新订单信息
+                DefaultRes res13 = new DefaultRes();
+                res = res13;
+                break;
+            }
+
 
 
             default:
@@ -145,7 +210,7 @@ public class Processor {
 
 
     //推送订单给指定用户
-    public void SendOrder(Order order,String Name)
+    public void SendOrder(Orders order,String Name)
     {
         //TODO
     }

@@ -19,6 +19,8 @@ public class Comment {
     protected JSON commentTags;
     protected String commentText;
 
+    public Comment(){}
+
     public Comment(Integer commentID, String commentName, Integer commentGoods, JSON commentTags, String commentText) {
         this.commentID = commentID;
         this.commentName = commentName;

@@ -1,15 +1,15 @@
 package json;
 
-import pojo.Order;
+import pojo.Orders;
 
 import java.util.List;
 
 public class LoadOrderRes extends AbstractRes
 {
     //TODO 完善JSON格式问题
-    List<Order> Orders;
+    List<Orders> OrdersList;
 
-    public List<Order> GetOrders() { return Orders;}
+    public List<Orders> GetOrders() { return OrdersList;}
 
-    public void FillOrdersByName(List<Order> orders) { this.Orders = orders; }
+    public void FillOrdersByName(List<Orders> ordersList) { this.OrdersList = ordersList; }
 }
