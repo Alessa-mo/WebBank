@@ -1,13 +1,9 @@
 package DB;
 
-import mapper.OrdersMapper;
-import mapper.StoreMapper;
-import mapper.UserMapper;
+import mapper.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionManager;
-import pojo.Orders;
-import pojo.Store;
-import pojo.User;
+import pojo.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,16 +59,14 @@ public class DBop {
     public class UserOp {
         private final UserMapper userMapper = sqlSessionManager.getMapper(UserMapper.class);
 
-        public boolean hasAccount(String name)
-        {
+        public boolean hasAccount(String name) {
             System.out.println("DBop:检验账户存在性");
             String res = userMapper.hasAccount(name);
             return res == null || res.isEmpty();
         }
 
         //注册
-        public void logOn(String userName, String userPassword, Integer userType)
-        {
+        public void logOn(String userName, String userPassword, Integer userType) {
             User user = new User(userName,userPassword,userType);
             userMapper.createUser(user);
         }
@@ -157,14 +151,78 @@ public class DBop {
     }
 
     public class GoodsOp {
+        private final GoodsMapper goodsMapper = sqlSessionManager.getMapper(GoodsMapper.class);
 
+        public void createGoods(Goods goods) {
+            goodsMapper.createGoods(goods);
+        }
+
+        public void deleteGoods(Integer goodsID) {
+            goodsMapper.deleteGoods(goodsID);
+        }
+
+        public Goods getGoodsByID(Integer goodsID) {
+            return goodsMapper.getGoodsByID(goodsID);
+        }
+
+        public void updateGoods(Goods goods) {
+            goodsMapper.updateGoods(goods);
+        }
+
+        public List<Goods> getAllGoodsOfStore(String storeName) {
+            return goodsMapper.getAllGoodsOfStore(storeName);
+        }
     }
 
     public class FrequencyOp {
+        private final FrequencyMapper frequencyMapper = sqlSessionManager.getMapper(FrequencyMapper.class);
 
+        public void createFrequency(Frequency frequency) {
+            frequencyMapper.createFrequency(frequency);
+        }
+
+        public void deleteFrequency(String userName, Integer goodsID) {
+            frequencyMapper.deleteFrequency(userName, goodsID);
+        }
+
+        public Frequency getFrequency(String userName, Integer goodsID) {
+            return frequencyMapper.getFrequency(userName, goodsID);
+        }
+
+        public List<Frequency> getFrequencyOfUser(String userName) {
+            return frequencyMapper.getFrequencyOfUser(userName);
+        }
+
+        public void updateFrequency(Frequency frequency) {
+            frequencyMapper.updateFrequency(frequency);
+        }
     }
 
     public class CommentOp {
+        private final CommentMapper commentMapper = sqlSessionManager.getMapper(CommentMapper.class);
 
+        public void createMapper(Comment comment) {
+            commentMapper.createMapper(comment);
+        }
+
+        public void deleteComment(Integer commentID) {
+            commentMapper.deleteComment(commentID);
+        }
+
+        public Comment getCommentByID(Integer commentID) {
+            return commentMapper.getCommentByID(commentID);
+        }
+
+        public void updateComment(Comment comment) {
+            commentMapper.updateComment(comment);
+        }
+
+        public List<Comment> getCommentsOfGoods(Integer goodsID) {
+            return commentMapper.getCommentsOfGoods(goodsID);
+        }
+
+        public List<Comment> getCommentsOfUser(String userName) {
+            return commentMapper.getCommentsOfUser(userName);
+        }
     }
 }

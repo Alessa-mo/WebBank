@@ -3,9 +3,10 @@ package pojo;
 // 数据库表条目对象
 //mysql构建:
 //create table frequency (
-//        frequency_name varchar(20) not null primary key,
+//        frequency_name varchar(20) not null,
 //        frequency_goods int not null,
-//        frequency_num int default 0
+//        frequency_num int default 0,
+//        primary key(frequency_name,frequency_goods)
 //        );
 
 public class Frequency {
