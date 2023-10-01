@@ -1,12 +1,10 @@
 package DB;
 
-import mapper.GoodsMapper;
 import mapper.OrdersMapper;
 import mapper.StoreMapper;
 import mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionManager;
-import pojo.Goods;
 import pojo.Orders;
 import pojo.Store;
 import pojo.User;
@@ -159,27 +157,7 @@ public class DBop {
     }
 
     public class GoodsOp {
-        private final GoodsMapper goodsMapper = sqlSessionManager.getMapper(GoodsMapper.class);
 
-        public void createGoods(Goods goods) {
-            goodsMapper.createGoods(goods);
-        }
-
-        public void deleteGoods(Integer goodsID) {
-            goodsMapper.deleteGoods(goodsID);
-        }
-
-        public Goods getGoodsByID(Integer goodsID) {
-            return goodsMapper.getGoodsByID(goodsID);
-        }
-
-        public void updateGoods(Goods goods) {
-            goodsMapper.updateGoods(goods);
-        }
-
-        public List<Goods> getAllGoodsOfStore(String storeName) {
-            return goodsMapper.getAllGoodsOfStore(storeName);
-        }
     }
 
     public class FrequencyOp {

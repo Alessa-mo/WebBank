@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import DB.DBop;
 import pojo.*;
 
+import javax.websocket.Session;
 import java.io.IOException;
 
 //后端业务逻辑
@@ -21,7 +22,7 @@ public class Processor {
         this.message = message;
     }
 
-    public String parseMessage()
+    public String parseMessage(Session session)
     {
         Integer op=message.getInteger("op");
         AbstractRes res;
@@ -30,13 +31,14 @@ public class Processor {
             case 0://注册
             {
                 DefaultRes defaultRes = new DefaultRes();
-                String username = message.getString("username");
+                JSONObject user = message.getJSONObject("User");
+                String username = user.getString("username");
                 if (dbop.userOp.hasAccount(username))
                 {
                     defaultRes.setSuccess(DefaultRes.successCode);
 
-                    String pwd = message.getString("pwd");
-                    Integer type = message.getInteger("type");
+                    String pwd = user.getString("pwd");
+                    Integer type = user.getInteger("type");
                     dbop.userOp.logOn(username,pwd,type);
                 }
                 else
@@ -50,11 +52,28 @@ public class Processor {
             case 1:  //登录
             {
                 LoginRes loginRes = new LoginRes();
-                String username = message.getString("username");
-                if (dbop.userOp.getPasswordByName(username).equals(message.getString("pwd")))
+
+                JSONObject user = message.getJSONObject("User");
+                String username = user.getString("username");
+                String pwd = user.getString("pwd");
+
+                if(WebSocket.LinkMap.containsKey(session))
                 {
+                    loginRes.setSuccess(LoginRes.failCode);
+                    loginRes.setWrongMessage("用户已经登陆");
+                }
+                else if (dbop.userOp.getPasswordByName(username).equals(pwd))
+                {
+
+                    User newUser = new User();
+                    newUser.setUserType(dbop.userOp.getAccountTypeByName(username));
+                    newUser.setUserPassword(pwd);
+                    newUser.setUserName(username);
+
                     loginRes.setSuccess(LoginRes.successCode);
-                    loginRes.setAccountType(dbop.userOp.getAccountTypeByName(username));
+                    loginRes.setAccountType(newUser.getUserType());
+
+                    WebSocket.LinkMap.put(session,newUser);
                 }
                 else
                 {
@@ -69,9 +88,8 @@ public class Processor {
             {
                 //TODO 加载所有商店
                 LoadStoreRes LsRes = new LoadStoreRes();
-
-
-
+                LsRes.FillStoreList(dbop.storeOp.getAllStores());
+                LsRes.setSuccess(LoadStoreRes.successCode);
                 res = LsRes;
                 break;
             }
@@ -80,7 +98,6 @@ public class Processor {
             {
                 //TODO 加载商店商品
                 LoadGoodRes LsiRes = new LoadGoodRes();
-                String Store = message.getString("Store");
                 res = LsiRes;
                 break;
             }
@@ -89,14 +106,7 @@ public class Processor {
             {
                 //TODO 获取来自客户下的订单 并插入数据库
                 DefaultRes dres = new DefaultRes();
-                String Customer = message.getString("Customer");
-                String Store = message.getString("Store");
-                Orders o = new Orders();
-
-                //收到订单后发送给商家和用户
-                SendOrder(o, Store);
-                SendOrder(o, Customer);
-
+                Orders orders = JsonPojo.JsonToOrders(message.getJSONObject("Orders"));
                 res = dres;
                 break;
             }
