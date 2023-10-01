@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.FrequencyMapper">
+    <resultMap id="frequencyResultMap" type="pojo.Frequency">
+        <id column="frequency_name" property="frequencyName" />
+        <id column="frequency_goods" property="frequencyGoods" />
+        <result column="frequency_num" property="frequencyNum" />
+    </resultMap>
+
+    <insert id="createFrequency">
+        insert into frequency set
+        frequency_name = #{frequencyName},
+        frequency_goods = #{frequencyGoods},
+        <if test="frequency_num != null">
+            ,frequency_num = #{frequencyNum}
+        </if>
+    </insert>
+    <delete id="deleteFrequency">
+        delete from frequency
+        where frequency_name = #{userName} and frequency_goods = #{goodsID}
+    </delete>
+    <select id="getFrequency" resultMap="frequencyResultMap">
+        select *
+        from frequency
+        where frequency_name = #{userName} and frequency_goods = #{goodsID}
+    </select>
+    <select id="getFrequencyOfUser" resultMap="frequencyResultMap">
+        select *
+        from frequency
+        where frequency_name = #{userName}
+    </select>
+    <update id="updateFrequency">
+        update frequency
+        set
+        <if test="frequency_num != null">
+            frequency_num = #{frequencyNum},
+        </if>
+        where frequency_name = #{frequencyName} and #{frequencyGoods}
+    </update>
+
+</mapper>

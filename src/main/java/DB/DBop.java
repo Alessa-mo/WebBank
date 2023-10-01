@@ -1,15 +1,9 @@
 package DB;
 
-import mapper.GoodsMapper;
-import mapper.OrdersMapper;
-import mapper.StoreMapper;
-import mapper.UserMapper;
+import mapper.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionManager;
-import pojo.Goods;
-import pojo.Orders;
-import pojo.Store;
-import pojo.User;
+import pojo.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,7 +175,27 @@ public class DBop {
     }
 
     public class FrequencyOp {
+        private final FrequencyMapper frequencyMapper = sqlSessionManager.getMapper(FrequencyMapper.class);
 
+        public void createFrequency(Frequency frequency) {
+            frequencyMapper.createFrequency(frequency);
+        }
+
+        public void deleteFrequency(String userName, Integer goodsID) {
+            frequencyMapper.deleteFrequency(userName, goodsID);
+        }
+
+        public Frequency getFrequency(String userName, Integer goodsID) {
+            return frequencyMapper.getFrequency(userName, goodsID);
+        }
+
+        public List<Frequency> getFrequencyOfUser(String userName) {
+            return frequencyMapper.getFrequencyOfUser(userName);
+        }
+
+        public void updateFrequency(Frequency frequency) {
+            frequencyMapper.updateFrequency(frequency);
+        }
     }
 
     public class CommentOp {
