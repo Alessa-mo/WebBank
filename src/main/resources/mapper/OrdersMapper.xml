@@ -58,4 +58,9 @@
             order_status = #{orderStatus},
         </if>
     </update>
+    <select id="getAllOngoingOrders" resultMap="ordersResultMap">
+        select *
+        from orders
+        where order_status = 0
+    </select>
 </mapper>
