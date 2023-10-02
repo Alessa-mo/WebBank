@@ -58,9 +58,20 @@
             order_status = #{orderStatus},
         </if>
     </update>
-    <select id="getAllOngoingOrders" resultMap="ordersResultMap">
+    <select id="getAllOrdersToDeliver" resultMap="ordersResultMap">
         select *
         from orders
-        where order_status = 0
+        where order_status = 0 and order_type = 2
     </select>
+    <select id="getAllOrdersOfUser" resultMap="ordersResultMap">
+        select *
+        from orders
+        where order_orderer = #{userName}
+    </select>
+    <select id="getAllOrdersOfStore" resultMap="ordersResultMap">
+        select *
+        from orders
+        where order_store = #{storeName}
+    </select>
+
 </mapper>

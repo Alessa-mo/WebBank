@@ -145,8 +145,16 @@ public class DBop {
             ordersMapper.updateOrder(orders);
         }
 
-        public List<Orders> getAllOngoingOrders() {
-            return ordersMapper.getAllOngoingOrders();
+        public List<Orders> getAllOrdersToDeliver() {
+            return ordersMapper.getAllOrdersToDeliver();
+        }
+
+        public List<Orders> getAllOrdersOfUser(String userName) {
+            return ordersMapper.getAllOrdersOfUser(userName);
+        }
+
+        public List<Orders> getAllOrdersOfStore(String storeName) {
+            return ordersMapper.getAllOrdersOfStore(storeName);
         }
     }
 
