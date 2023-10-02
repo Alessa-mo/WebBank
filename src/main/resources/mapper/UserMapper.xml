@@ -12,7 +12,7 @@
     <insert id="createUser">
         insert into user set
         user_name = #{userName},
-        user_password = #{password}
+        user_password = #{userPassword}
         <if test="userType != null">
             ,user_type = #{userType}
         </if>

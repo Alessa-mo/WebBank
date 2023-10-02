@@ -37,7 +37,7 @@ public class Processor {
                 JSONObject user = message.getJSONObject("User");
                 User newUser = JsonPojo.JsonToUser(user);
                 String username = newUser.getUserName();
-                if (dbop.userOp.hasAccount(username))
+                if (!dbop.userOp.hasAccount(username))
                 {
                     defaultRes.setSuccess(DefaultRes.successCode);
 

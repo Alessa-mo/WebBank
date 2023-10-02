@@ -62,7 +62,7 @@ public class DBop {
         public boolean hasAccount(String name) {
             System.out.println("DBop:检验账户存在性");
             String res = userMapper.hasAccount(name);
-            return res != null && !res.isEmpty();
+            return res != null || !res.isEmpty();
         }
 
         //注册
