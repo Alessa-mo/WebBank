@@ -13,7 +13,7 @@
         insert into user set
         user_name = #{name},
         user_password = #{password}
-        <if test="accountType != null">
+        <if test="userType != null">
             ,user_type = #{userType}
         </if>
     </insert>
