@@ -11,7 +11,7 @@
 
     <insert id="createUser">
         insert into user set
-        user_name = #{name},
+        user_name = #{userName},
         user_password = #{password}
         <if test="userType != null">
             ,user_type = #{userType}
@@ -19,7 +19,7 @@
     </insert>
     <delete id="deleteUser">
         delete from user
-        where user_name = #{name}
+        where user_name = #{userName}
     </delete>
     <select id="getPasswordByName" resultType="java.lang.String">
         select user_password
