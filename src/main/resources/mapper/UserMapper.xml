@@ -6,7 +6,7 @@
     <resultMap id="userResultMap" type="pojo.User">
         <id column="user_name" property="userName" />
         <result column="user_password" property="userPassword" />
-        <result column="account_type" property="userType" />
+        <result column="user_type" property="userType" />
     </resultMap>
 
     <insert id="createUser">
@@ -14,7 +14,7 @@
         user_name = #{name},
         user_password = #{password}
         <if test="accountType != null">
-            ,account_type = #{accountType}
+            ,user_type = #{userType}
         </if>
     </insert>
     <delete id="deleteUser">
@@ -27,7 +27,7 @@
         where user_name = #{userName}
     </select>
     <select id="getAccountTypeByName" resultType="java.lang.Integer">
-        select account_type
+        select user_name
         from user
         where user_name = #{userName}
     </select>
@@ -37,7 +37,7 @@
         where user_name = #{userName}
     </select>
     <select id="getUserByName" resultMap="userResultMap">
-        select user_name,user_password,account_type
+        select user_name,user_password,user_type
         from user
         where user_name = #{userName}
     </select>
