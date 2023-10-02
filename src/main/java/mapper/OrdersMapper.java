@@ -13,6 +13,9 @@ public interface OrdersMapper {
 
     void updateOrder(Orders orders);
 
-    List<Orders> getAllOngoingOrders();
+    List<Orders> getAllOrdersToDeliver();
 
+    List<Orders> getAllOrdersOfUser(String userName);
+
+    List<Orders> getAllOrdersOfStore(String storeName);
 }
