@@ -6,6 +6,8 @@ public abstract class AbstractRes {
     private int success = 0;
     private String wrongMessage;
 
+    private Integer OperationCode;
+
     public int getSuccess() {
         return success;
     }
@@ -21,4 +23,6 @@ public abstract class AbstractRes {
     public void setWrongMessage(String wrongMessage) {
         this.wrongMessage = wrongMessage;
     }
+
+    public void SetOperationCode(Integer code) { this.OperationCode = code;}
 }

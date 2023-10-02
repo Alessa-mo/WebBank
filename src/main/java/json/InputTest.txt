@@ -1,6 +1,9 @@
 {
-    "op": register / Login
-    "username":XXX
-    "pwd":XXX
-    "type":XXX
+    "op":0,
+    "User":
+    {
+        "username":"liyuan",
+        "pwd":"123456",
+        "type": 1
+    }
 }

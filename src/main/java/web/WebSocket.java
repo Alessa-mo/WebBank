@@ -13,8 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 //用户链接对象类
 @ServerEndpoint("/websocket")
 public class WebSocket {
-    private static final Map<WebSocket, String> clients = new ConcurrentHashMap<>();
-    public static final Map<Session, User> LinkMap = new HashMap<Session,User>();
+    public static final Map<WebSocket, String> clients = new ConcurrentHashMap<>();
+    public static final Map<String,WebSocket> U2W = new HashMap<String,WebSocket>();
     private Session session;
     private Processor processor = new Processor();
 
@@ -38,13 +38,20 @@ public class WebSocket {
     public void onMessage(String message) throws IOException {
         System.out.println("收到message:\n" + message);
         processor.setMessage(JSON.parseObject(message));
-        String res = processor.parseMessage(this.session);
+        String res = processor.parseMessage(this);
         sendEcho(res);
     }
 
-    public void sendEcho(String message) throws IOException {
+    public void sendEcho(String message) throws IOException
+    {
 //        String text = JSON.toJSONString(message);
         System.out.println("发回消息:\n" + message);
+        session.getBasicRemote().sendText(message);
+    }
+
+    public void PushMessage(String message) throws IOException
+    {
+        System.out.println("推送消息:\n" + message);
         session.getBasicRemote().sendText(message);
     }
 }

@@ -60,4 +60,9 @@ public class User
                 ", userType=" + userType +
                 '}';
     }
+
+    public boolean equal(User other)
+    {
+        return this.userName==other.userName&&this.userPassword==other.userPassword&&this.userType== other.userType;
+    }
 }

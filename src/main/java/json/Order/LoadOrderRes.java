@@ -1,5 +1,6 @@
-package json;
+package json.Order;
 
+import json.AbstractRes;
 import pojo.Orders;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public class LoadOrderRes extends AbstractRes
 
     public List<Orders> GetOrders() { return OrdersList;}
 
-    public void FillOrdersByName(List<Orders> ordersList) { this.OrdersList = ordersList; }
+    public void FillOrders(List<Orders> ordersList) { this.OrdersList = ordersList; }
 }
