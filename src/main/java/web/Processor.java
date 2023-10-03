@@ -220,20 +220,16 @@ public class Processor {
             {
                 //TODO 创建商店
                 DefaultRes res10 = new DefaultRes();
-                String name = message.getString("Name");//MainKey
-                Integer area = message.getInteger("Area");
-                String  detailLocation = message.getString("DetailLocation");
-                String description = message.getString("Description");
+                JSONObject Target = message.getJSONObject("Store");
+                Store  newStore = JsonPojo.JsonToStore(Target);
 
-                if(dbop.storeOp.getStoreByName(name)==null)
+                if(dbop.storeOp.getStoreByName(newStore.getStoreName())==null)
                 {
                     res10.setSuccess(DefaultRes.successCode);
-                    Store newStore = new Store(name,area,detailLocation,description);
                     dbop.storeOp.createStore(newStore);
                 }
                 else
                 {
-
                     res10.setSuccess(DefaultRes.failCode);
                     res10.setWrongMessage("该商店名已存在");
                 }

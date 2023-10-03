@@ -2,10 +2,7 @@ package json;
 
 import com.alibaba.fastjson.JSONObject;
 import org.joda.time.DateTime;
-import pojo.Comment;
-import pojo.Goods;
-import pojo.Orders;
-import pojo.User;
+import pojo.*;
 
 public class JsonPojo
 {
@@ -50,6 +47,17 @@ public class JsonPojo
         Integer Amount = jsonObject.getInteger("Amount");
 
         return new Goods(store,url,Describe,Price,Amount);
+    }
+
+
+    public static Store JsonToStore(JSONObject jsonObject)
+    {
+        String Name = jsonObject.getString("Name");
+        Integer Location = jsonObject.getInteger("Location");
+        String DetailLocation = jsonObject.getString("DLocation");
+        String Describe = jsonObject.getString("Describe");
+
+        return new Store(Name,Location,DetailLocation,Describe);
     }
 
 }
