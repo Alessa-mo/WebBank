@@ -1,6 +1,47 @@
 {
-    "op": register / Login
-    "username":XXX
-    "pwd":XXX
-    "type":XXX
+    "op":0,
+    "User":
+    {
+        "username":"荔园二食堂",
+        "pwd":"123456",
+        "type": 2
+    }
+}
+
+{
+    "op":1,
+    "User":
+    {
+        "username":"liyuan",
+        "pwd":"123456",
+        "type": 1
+    }
+}
+
+{
+    "op":2
+}
+
+{
+    "op":10,
+    "Store":
+    {
+        "Name":"yanyuan",
+        "Location":3,
+        "DLocation":"北大燕园2食堂3楼",
+        "Describe":"好吃"
+    }
+}
+
+{
+    "op":11,
+    "Name":"荔园二食堂",
+    "Good":
+    {
+        "Store":"荔园二食堂",
+        "URL":"XXXXX.PNG",
+        "Describe":"非常好吃",
+        "Price":"13",
+        "Amount":50
+    }
 }

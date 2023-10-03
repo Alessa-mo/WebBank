@@ -15,7 +15,7 @@
         store_name = #{storeName},
         store_location = #{storeLocation},
         store_detail_location = #{storeDetailLocation}
-        <if test="store_describe != null and store_describe != ''">
+        <if test="storeDescribe != null and storeDescribe != ''">
             ,store_describe = #{storeDescribe}
         </if>
     </insert>
