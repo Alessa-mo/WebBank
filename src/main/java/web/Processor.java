@@ -60,7 +60,7 @@ public class Processor {
                 JSONObject user = message.getJSONObject("User");
                 User currUser = JsonPojo.JsonToUser(user);
 
-                if(WebSocket.clients.containsKey(webSocket))
+                if(WebSocket.U2W.containsKey(currUser.getUserName()))
                 {
                     loginRes.setSuccess(LoginRes.failCode);
                     loginRes.setWrongMessage("用户已经登陆");

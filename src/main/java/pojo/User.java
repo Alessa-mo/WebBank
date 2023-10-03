@@ -63,6 +63,7 @@ public class User
 
     public boolean equal(User other)
     {
-        return this.userName==other.userName&&this.userPassword==other.userPassword&&this.userType== other.userType;
+        return this.userName.equals(other.userName)&&this.userPassword.equals(other.userPassword)
+                &&this.userType.equals(other.userType);
     }
 }
