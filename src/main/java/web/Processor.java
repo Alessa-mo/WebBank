@@ -33,7 +33,7 @@ public class Processor {
             case 0://注册
             {
                 DefaultRes defaultRes = new DefaultRes();
-                defaultRes.SetOperationCode(0);
+                defaultRes.setOperationCode(0);
                 JSONObject user = message.getJSONObject("User");
                 User newUser = JsonPojo.JsonToUser(user);
                 String username = newUser.getUserName();
@@ -56,7 +56,7 @@ public class Processor {
             case 1:  //登录
             {
                 LoginRes loginRes = new LoginRes();
-                loginRes.SetOperationCode(0);
+                loginRes.setOperationCode(0);
                 JSONObject user = message.getJSONObject("User");
                 User currUser = JsonPojo.JsonToUser(user);
 
@@ -94,18 +94,17 @@ public class Processor {
             {
                 //TODO 加载所有商店
                 LoadStoreRes LsRes = new LoadStoreRes();
-                LsRes.SetOperationCode(0);
+                LsRes.setOperationCode(0);
                 LsRes.FillStoreList(dbop.storeOp.getAllStores());
                 LsRes.setSuccess(LoadStoreRes.successCode);
-                res = LsRes;
-                break;
+                return JSON.toJSONString(LsRes);
             }
 
             case 3:
             {
                 //TODO 加载商店商品
                 LoadGoodRes LsiRes = new LoadGoodRes();
-                LsiRes.SetOperationCode(0);
+                LsiRes.setOperationCode(0);
                 res = LsiRes;
                 break;
             }
@@ -114,7 +113,7 @@ public class Processor {
             {
                 //TODO 获取来自客户下的订单 并插入数据库
                 DefaultRes dres = new DefaultRes();
-                dres.SetOperationCode(0);
+                dres.setOperationCode(0);
                 dres.setSuccess(DefaultRes.successCode);
                 Orders orders = JsonPojo.JsonToOrders(message.getJSONObject("Orders"));
                 dbop.ordersOp.createOrder(orders);
@@ -122,7 +121,7 @@ public class Processor {
                 //推送订单
                 PushOrderRes PoRes = new PushOrderRes();
                 PoRes.SetOrder(orders);
-                PoRes.SetOperationCode(1);
+                PoRes.setOperationCode(1);
                 PushMessage(WebSocket.U2W.get(orders.getOrderStore()),PoRes);
                 res = dres;
                 break;
@@ -154,7 +153,7 @@ public class Processor {
                 //TODO 获取来自客户的评论
                 DefaultRes res7 = new DefaultRes();
                 res7.setSuccess(DefaultRes.successCode);
-                res7.SetOperationCode(0);
+                res7.setOperationCode(0);
                 JSONObject Target = message.getJSONObject("Comment");
                 Comment comment = JsonPojo.JsonToComment(Target);
                 dbop.commentOp.createMapper(comment);
@@ -172,7 +171,7 @@ public class Processor {
             {
                 //TODO 查询评论
                 LoadCommentRes LcRes = new LoadCommentRes();
-                LcRes.SetOperationCode(0);
+                LcRes.setOperationCode(0);
                 String name = message.getString("name");
                 Integer goodID = message.getInteger("id");
                 List<Comment> list = null;
@@ -198,7 +197,7 @@ public class Processor {
             {
                 //TODO 加载某用户的购买频次表
                 LoadFrequencyRes LfRes = new LoadFrequencyRes();
-                LfRes.SetOperationCode(0);
+                LfRes.setOperationCode(0);
                 String Customer = message.getString("Customer");
 
                 if(dbop.userOp.hasAccount(Customer))
@@ -248,7 +247,7 @@ public class Processor {
             {
                 //TODO 商家给商店添加商品
                 DefaultRes res11 = new DefaultRes();
-                res11.SetOperationCode(0);
+                res11.setOperationCode(0);
                 String name = message.getString("Name");
 
                 if(dbop.userOp.getAccountTypeByName(name)==2)
@@ -273,7 +272,7 @@ public class Processor {
             {
                 //TODO 商家更新商品信息
                 DefaultRes res12 = new DefaultRes();
-                res12.SetOperationCode(0);
+                res12.setOperationCode(0);
 
                 JSONObject Target = message.getJSONObject("Good");
                 Goods goods = JsonPojo.JsonToGood(Target);
@@ -287,7 +286,7 @@ public class Processor {
             {
                 //TODO 更新订单信息
                 DefaultRes res13 = new DefaultRes();
-                res13.SetOperationCode(0);
+                res13.setOperationCode(0);
                 JSONObject Target = message.getJSONObject("Order");
 
                 Orders o =JsonPojo.JsonToOrders(Target);

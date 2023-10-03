@@ -6,4 +6,6 @@ public class LoadStoreRes extends AbstractRes
 {
     List<Store> StoreList;
     public void FillStoreList(List<Store> storeList){this.StoreList = storeList;}
+
+    public List<Store> getStoreList(){return this.StoreList;}
 }
