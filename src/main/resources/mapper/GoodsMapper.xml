@@ -16,13 +16,13 @@
         insert into goods set
         goods_store = #{goodsStore},
         goods_price = #{goodsPrice}
-        <if test="goods_photo_url != null and goods_photo_url != ''">
-            ,store_describe = #{storeDescribe}
+        <if test="goodsPhotoURL != null and goodsPhotoURL != ''">
+            ,goods_photo_url = #{goodsPhotoURL}
         </if>
-        <if test="goods_describe != null and goods_describe != ''">
+        <if test="goodsDescribe != null and goodsDescribe != ''">
             ,goods_describe = #{goodsDescribe}
         </if>
-        <if test="goods_sale_amount != null">
+        <if test="goodsSaleAmount != null">
             ,goods_sale_amount = #{goodsSaleAmount}
         </if>
     </insert>
@@ -38,19 +38,19 @@
     <update id="updateGoods">
         update goods
         set
-        <if test="goods_store != null and goods_store != ''">
+        <if test="goodsStore != null and goodsStore != ''">
             goods_store = #{goodsStore},
         </if>
-        <if test="goods_photo_url != null">
+        <if test="goodsPhotoURL != null">
             goods_photo_url = #{goodsPhotoURL},
         </if>
-        <if test="goods_describe != null and goods_describe != ''">
+        <if test="goodsDescribe != null and goodsDescribe != ''">
             goods_describe = #{goodsDescribe},
         </if>
-        <if test="goods_price != null and goods_price != ''">
+        <if test="goodsPrice != null and goodsPrice != ''">
             goods_price = #{goodsPrice},
         </if>
-        <if test="goods_sale_amount != null">
+        <if test="goodsSaleAmount != null">
             goods_sale_amount = #{goodsSaleAmount}
         </if>
     </update>

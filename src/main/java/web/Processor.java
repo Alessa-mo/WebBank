@@ -220,18 +220,25 @@ public class Processor {
             {
                 //TODO 创建商店
                 DefaultRes res10 = new DefaultRes();
-                JSONObject Target = message.getJSONObject("Store");
-                Store  newStore = JsonPojo.JsonToStore(Target);
+                String name = message.getString("name");
 
-                if(dbop.storeOp.getStoreByName(newStore.getStoreName())==null)
+                if(dbop.userOp.getAccountTypeByName(name)==2)
                 {
-                    res10.setSuccess(DefaultRes.successCode);
-                    dbop.storeOp.createStore(newStore);
+                    JSONObject Target = message.getJSONObject("Store");
+                    Store newStore = JsonPojo.JsonToStore(Target);
+
+                    if (dbop.storeOp.getStoreByName(newStore.getStoreName()) == null) {
+                        res10.setSuccess(DefaultRes.successCode);
+                        dbop.storeOp.createStore(newStore);
+                    } else {
+                        res10.setSuccess(DefaultRes.failCode);
+                        res10.setWrongMessage("该商店名已存在");
+                    }
                 }
                 else
                 {
                     res10.setSuccess(DefaultRes.failCode);
-                    res10.setWrongMessage("该商店名已存在");
+                    res10.setWrongMessage("用户类型不是商家，无法创建商店");
                 }
                 res = res10;
                 break;
@@ -242,12 +249,22 @@ public class Processor {
                 //TODO 商家给商店添加商品
                 DefaultRes res11 = new DefaultRes();
                 res11.SetOperationCode(0);
+                String name = message.getString("Name");
 
-                JSONObject Target = message.getJSONObject("Good");
-                Goods goods = JsonPojo.JsonToGood(Target);
+                if(dbop.userOp.getAccountTypeByName(name)==2)
+                {
+                    JSONObject Target = message.getJSONObject("Good");
+                    Goods goods = JsonPojo.JsonToGood(Target);
 
-                dbop.goodsOp.createGoods(goods);
-                res11.setSuccess(DefaultRes.successCode);
+                    dbop.goodsOp.createGoods(goods);
+                    res11.setSuccess(DefaultRes.successCode);
+                }
+                else
+                {
+                    res11.setSuccess(DefaultRes.failCode);
+                    res11.setWrongMessage("用户类型不是商家，无法添加货物");
+                }
+
                 res = res11;
                 break;
             }

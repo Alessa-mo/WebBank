@@ -27,7 +27,7 @@
         where user_name = #{userName}
     </select>
     <select id="getAccountTypeByName" resultType="java.lang.Integer">
-        select user_name
+        select user_type
         from user
         where user_name = #{userName}
     </select>
