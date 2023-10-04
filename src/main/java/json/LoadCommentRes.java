@@ -7,10 +7,10 @@ import java.util.List;
 public class LoadCommentRes extends AbstractRes
 {
     //TODO JSON格式问题
-    List<Comment> Comments;
+    List<Comment> CommentsList;
 
-    public List<Comment> GetComments() { return Comments;}
+    public List<Comment> getCommentsList() { return this.CommentsList;}
 
-    public void FillComments(List<pojo.Comment> comments) { this.Comments = comments; }
+    public void FillCommentsList(List<Comment> commentList) { this.CommentsList = commentList; }
 
 }

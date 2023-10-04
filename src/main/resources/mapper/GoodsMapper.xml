@@ -58,6 +58,7 @@
         <if test="goodsSaleAmount != null">
             goods_sale_amount = #{goodsSaleAmount}
         </if>
+        where goods_id = #{goodsID}
     </update>
     <select id="getAllGoodsOfStore" resultMap="goodsResultMap">
         select *

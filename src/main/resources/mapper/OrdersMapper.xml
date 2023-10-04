@@ -36,27 +36,28 @@
     <update id="updateOrder">
         update orders
         set
-        <if test="order_orderer != null and order_orderer != ''">
+        <if test="orderOrderer != null and orderOrderer != ''">
             order_orderer = #{orderOrderer},
         </if>
-        <if test="order_store != null and order_store != ''">
+        <if test="orderStore != null and orderStore != ''">
             order_store = #{orderStore},
         </if>
-        <if test="order_list != null and order_list != ''">
+        <if test="orderList != null and orderList != ''">
             order_list = #{orderList},
         </if>
-        <if test="order_total_price != null and order_total_price != ''">
+        <if test="orderTotalPrice != null and orderTotalPrice != ''">
             order_total_price = #{orderTotalPrice},
         </if>
-        <if test="order_type != null">
+        <if test="orderType != null">
             order_type = #{orderType},
         </if>
-        <if test="order_time != null and order_time != ''">
+        <if test="orderTime != null and orderTime != ''">
             order_time = #{orderTime},<!--需验证DateTime格式-->
         </if>
-        <if test="order_status != null">
-            order_status = #{orderStatus},
+        <if test="orderStatus != null">
+            order_status = #{orderStatus}
         </if>
+        where order_id = #{orderID}
     </update>
     <select id="getAllOrdersToDeliver" resultMap="ordersResultMap">
         select *
