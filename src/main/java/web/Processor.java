@@ -34,10 +34,9 @@ public class Processor {
             {
                 DefaultRes defaultRes = new DefaultRes();
                 defaultRes.setOperationCode(0);
-                JSONObject user = message.getJSONObject("User");
-                User newUser = JsonPojo.JsonToUser(user);
+                User newUser = JsonPojo.JsonToUser(message.getJSONObject("User"));
                 String username = newUser.getUserName();
-                if (!dbop.userOp.hasAccount(username))
+                if (!dbop.userOp.hasAccount(username)) //检测是否已存在用户名
                 {
                     defaultRes.setSuccess(DefaultRes.successCode);
 
@@ -57,8 +56,7 @@ public class Processor {
             {
                 LoginRes loginRes = new LoginRes();
                 loginRes.setOperationCode(0);
-                JSONObject user = message.getJSONObject("User");
-                User currUser = JsonPojo.JsonToUser(user);
+                User currUser = JsonPojo.JsonToUser(message.getJSONObject("User"));
 
                 if(WebSocket.U2W.containsKey(currUser.getUserName()))
                 {
@@ -73,7 +71,7 @@ public class Processor {
                     {
                         loginRes.setSuccess(LoginRes.successCode);
                         loginRes.setAccountType(currUser.getUserType());
-                        WebSocket.U2W.put(currUser.getUserName(),webSocket);
+                        WebSocket.U2W.put(currUser.getUserName(),webSocket);//已连接用户加入哈希表中便于推送消息
                     }
                     else
                     {
@@ -120,9 +118,7 @@ public class Processor {
 
                 //推送订单
                 PushOrderRes PoRes = new PushOrderRes();
-                PoRes.SetOrder(orders);
-                PoRes.setOperationCode(1);
-                PushMessage(WebSocket.U2W.get(orders.getOrderStore()),PoRes);
+
                 res = dres;
                 break;
             }
@@ -131,10 +127,27 @@ public class Processor {
             {
                 //TODO 查询订单
                 LoadOrderRes LoRes = new LoadOrderRes();
-                String name = message.getString("name");
-                Integer type = message.getInteger("type");
-                Orders o = null;
+                String name = message.getString("Name");
+                Integer usertype = dbop.userOp.getAccountTypeByName(name);
 
+                LoRes.setOperationCode(0);
+                LoRes.setSuccess(LoadOrderRes.successCode);
+                switch (usertype)
+                {
+                    case 1:
+                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfUser(name));
+                        break;
+                    case 2:
+                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfStore(name));
+                        break;
+                    case 3:
+                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersToDeliver());
+                        break;
+                    default:
+                        LoRes.setSuccess(LoadOrderRes.failCode);
+                        LoRes.setWrongMessage("用户类型错误");
+                        break;
+                }
                 res = LoRes;
                 break;
             }
@@ -157,12 +170,7 @@ public class Processor {
                 JSONObject Target = message.getJSONObject("Comment");
                 Comment comment = JsonPojo.JsonToComment(Target);
                 dbop.commentOp.createMapper(comment);
-
-                Goods goods = dbop.goodsOp.getGoodsByID(comment.getCommentGoods());
-                PushCommentRes PcRes = new PushCommentRes();
-                PcRes.SetComment(comment);
-                PushMessage(WebSocket.U2W.get(goods.getGoodsStore()),PcRes);
-
+                //推送评论
                 res = res7;
                 break;
             }
@@ -172,8 +180,9 @@ public class Processor {
                 //TODO 查询评论
                 LoadCommentRes LcRes = new LoadCommentRes();
                 LcRes.setOperationCode(0);
-                String name = message.getString("name");
-                Integer goodID = message.getInteger("id");
+                LcRes.setSuccess(LoadCommentRes.successCode);
+                String name = message.getString("Name");
+                Integer goodID = message.getInteger("Good");
                 List<Comment> list = null;
                 if(name !=null)
                 {
@@ -187,10 +196,11 @@ public class Processor {
                 if(list==null)
                 {
                     LcRes.setSuccess(LoadCommentRes.failCode);
-                    LcRes.setWrongMessage("评论主体不存在");
+                    LcRes.setWrongMessage("评论不存在");
                 }
-                res = LcRes;
-                break;
+                else
+                    LcRes.FillCommentsList(list);
+                return JSON.toJSONString(LcRes);
             }
 
             case 9:
@@ -219,20 +229,12 @@ public class Processor {
             {
                 //TODO 创建商店
                 DefaultRes res10 = new DefaultRes();
-                String name = message.getString("name");
-
-                if(dbop.userOp.getAccountTypeByName(name)==2)
+                JSONObject Target = message.getJSONObject("Store");
+                Store newStore = JsonPojo.JsonToStore(Target);
+                if(dbop.userOp.getAccountTypeByName(newStore.getStoreName())==2)
                 {
-                    JSONObject Target = message.getJSONObject("Store");
-                    Store newStore = JsonPojo.JsonToStore(Target);
-
-                    if (dbop.storeOp.getStoreByName(newStore.getStoreName()) == null) {
-                        res10.setSuccess(DefaultRes.successCode);
-                        dbop.storeOp.createStore(newStore);
-                    } else {
-                        res10.setSuccess(DefaultRes.failCode);
-                        res10.setWrongMessage("该商店名已存在");
-                    }
+                    res10.setSuccess(DefaultRes.successCode);
+                    dbop.storeOp.createStore(newStore);
                 }
                 else
                 {
@@ -248,22 +250,19 @@ public class Processor {
                 //TODO 商家给商店添加商品
                 DefaultRes res11 = new DefaultRes();
                 res11.setOperationCode(0);
-                String name = message.getString("Name");
+                JSONObject Target = message.getJSONObject("Good");
+                Goods goods = JsonPojo.JsonToGood(Target);
 
-                if(dbop.userOp.getAccountTypeByName(name)==2)
-                {
-                    JSONObject Target = message.getJSONObject("Good");
-                    Goods goods = JsonPojo.JsonToGood(Target);
-
+                if(dbop.userOp.getAccountTypeByName(goods.getGoodsStore())==2)
+                {//检验用户是否是商店
                     dbop.goodsOp.createGoods(goods);
                     res11.setSuccess(DefaultRes.successCode);
                 }
                 else
                 {
                     res11.setSuccess(DefaultRes.failCode);
-                    res11.setWrongMessage("用户类型不是商家，无法添加货物");
+                    res11.setWrongMessage("用户类型不是商家，无法添加商品");
                 }
-
                 res = res11;
                 break;
             }

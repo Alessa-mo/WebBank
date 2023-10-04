@@ -19,7 +19,7 @@ public class JsonPojo
     {
         String Customer = jsonObject.getString("Customer");
         String Store = jsonObject.getString("Store");
-        String orderList = jsonObject.getString("OrderList");
+        String orderList = jsonObject.getJSONObject("OrderList").toJSONString();
         String TotalPrice =jsonObject.getString("TotalPrice");
         String OrderType = jsonObject.getString("OrderType");
         Integer orderStatus = jsonObject.getInteger("OrderStatus");
@@ -30,7 +30,7 @@ public class JsonPojo
 
     public static Comment JsonToComment(JSONObject jsonObject)
     {
-        String Name = jsonObject.getString("Origin");
+        String Name = jsonObject.getString("Name");
         Integer GoodID = jsonObject.getInteger("Good");
         String CommentTag = jsonObject.getString("Tag");
         String CommentText = jsonObject.getString("Text");
