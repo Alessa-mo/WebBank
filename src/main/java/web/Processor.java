@@ -116,8 +116,11 @@ public class Processor {
                 Orders orders = JsonPojo.JsonToOrders(message.getJSONObject("Orders"));
                 dbop.ordersOp.createOrder(orders);
 
-                //推送订单
+                //推送订单给商店
                 PushOrderRes PoRes = new PushOrderRes();
+                String store = orders.getOrderStore();
+                PoRes.SetOrder(orders);
+                PushMessage(WebSocket.U2W.get(store),JSON.toJSONString(PoRes));
 
                 res = dres;
                 break;
@@ -272,9 +275,7 @@ public class Processor {
                 //TODO 商家更新商品信息
                 DefaultRes res12 = new DefaultRes();
                 res12.setOperationCode(0);
-
-                JSONObject Target = message.getJSONObject("Good");
-                Goods goods = JsonPojo.JsonToGood(Target);
+                Goods goods = JsonPojo.JsonToGood(message.getJSONObject("Good"));
                 dbop.goodsOp.updateGoods(goods);
                 res12.setSuccess(DefaultRes.successCode);
                 res = res12;
@@ -286,9 +287,7 @@ public class Processor {
                 //TODO 更新订单信息
                 DefaultRes res13 = new DefaultRes();
                 res13.setOperationCode(0);
-                JSONObject Target = message.getJSONObject("Order");
-
-                Orders o =JsonPojo.JsonToOrders(Target);
+                Orders o =JsonPojo.JsonToOrders(message.getJSONObject("Order"));
                 dbop.ordersOp.updateOrder(o);
 
                 res13.setSuccess(DefaultRes.successCode);
@@ -310,15 +309,15 @@ public class Processor {
     }
 
 
-    void PushMessage(WebSocket webSocket,AbstractRes res)
+    void PushMessage(WebSocket webSocket,String msg)
     {
         try
         {
-            webSocket.PushMessage(JSON.toJSONString(res));
+            webSocket.PushMessage(msg);
         }
         catch (IOException e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+msg);
         }
     }
 }
