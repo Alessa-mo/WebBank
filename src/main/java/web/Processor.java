@@ -7,7 +7,8 @@ import DB.DBop;
 import json.Order.LoadOrderRes;
 import json.Order.PushOrderRes;
 import pojo.*;
-import java.util.List;
+
+import java.util.*;
 import java.io.IOException;
 
 //后端业务逻辑
@@ -34,7 +35,9 @@ public class Processor {
             {
                 DefaultRes defaultRes = new DefaultRes();
                 defaultRes.setOperationCode(0);
-                User newUser = JsonPojo.JsonToUser(message.getJSONObject("User"));
+
+                User newUser = JSON.parseObject(message.getJSONObject("User").toJSONString(),User.class);
+
                 String username = newUser.getUserName();
                 if (!dbop.userOp.hasAccount(username)) //检测是否已存在用户名
                 {
@@ -56,7 +59,8 @@ public class Processor {
             {
                 LoginRes loginRes = new LoginRes();
                 loginRes.setOperationCode(0);
-                User currUser = JsonPojo.JsonToUser(message.getJSONObject("User"));
+
+                User currUser = JSON.parseObject(message.getJSONObject("User").toJSONString(),User.class);
 
                 if(WebSocket.U2W.containsKey(currUser.getUserName()))
                 {
@@ -89,8 +93,7 @@ public class Processor {
             }
 
             case 2:
-            {
-                //TODO 加载所有商店
+            { //加载所有商店
                 LoadStoreRes LsRes = new LoadStoreRes();
                 LsRes.setOperationCode(0);
                 LsRes.FillStoreList(dbop.storeOp.getAllStores());
@@ -101,10 +104,12 @@ public class Processor {
             case 3:
             {
                 //TODO 加载商店商品
-                LoadGoodRes LsiRes = new LoadGoodRes();
-                LsiRes.setOperationCode(0);
-                res = LsiRes;
-                break;
+                LoadGoodRes LgRes = new LoadGoodRes();
+                String store = message.getString("Store");
+                LgRes.setSuccess(LoadGoodRes.successCode);
+                LgRes.setOperationCode(0);
+                LgRes.FillGoodList(dbop.goodsOp.getAllGoodsOfStore(store));
+                return JSON.toJSONString(LgRes);
             }
 
             case 4:
@@ -113,8 +118,13 @@ public class Processor {
                 DefaultRes dres = new DefaultRes();
                 dres.setOperationCode(0);
                 dres.setSuccess(DefaultRes.successCode);
-                Orders orders = JsonPojo.JsonToOrders(message.getJSONObject("Orders"));
+
+                Orders orders = JSON.parseObject(message.getJSONObject("Orders").toJSONString(),Orders.class);
                 dbop.ordersOp.createOrder(orders);
+
+
+                //插入或者更新一条频次信息
+                UpdateFrequencyByOrders(orders);
 
                 //推送订单给商店
                 PushOrderRes PoRes = new PushOrderRes();
@@ -170,8 +180,7 @@ public class Processor {
                 DefaultRes res7 = new DefaultRes();
                 res7.setSuccess(DefaultRes.successCode);
                 res7.setOperationCode(0);
-                JSONObject Target = message.getJSONObject("Comment");
-                Comment comment = JsonPojo.JsonToComment(Target);
+                Comment comment = JSON.parseObject(message.getJSONObject("Comment").toJSONString(),Comment.class);
                 dbop.commentOp.createMapper(comment);
                 //推送评论
                 res = res7;
@@ -232,8 +241,7 @@ public class Processor {
             {
                 //TODO 创建商店
                 DefaultRes res10 = new DefaultRes();
-                JSONObject Target = message.getJSONObject("Store");
-                Store newStore = JsonPojo.JsonToStore(Target);
+                Store newStore = JSON.parseObject( message.getJSONObject("Store").toJSONString(),Store.class);
                 if(dbop.userOp.getAccountTypeByName(newStore.getStoreName())==2)
                 {
                     res10.setSuccess(DefaultRes.successCode);
@@ -253,8 +261,7 @@ public class Processor {
                 //TODO 商家给商店添加商品
                 DefaultRes res11 = new DefaultRes();
                 res11.setOperationCode(0);
-                JSONObject Target = message.getJSONObject("Good");
-                Goods goods = JsonPojo.JsonToGood(Target);
+                Goods goods = JSON.parseObject( message.getJSONObject("Good").toJSONString(),Goods.class);
 
                 if(dbop.userOp.getAccountTypeByName(goods.getGoodsStore())==2)
                 {//检验用户是否是商店
@@ -275,7 +282,7 @@ public class Processor {
                 //TODO 商家更新商品信息
                 DefaultRes res12 = new DefaultRes();
                 res12.setOperationCode(0);
-                Goods goods = JsonPojo.JsonToGood(message.getJSONObject("Good"));
+                Goods goods = JSON.parseObject( message.getJSONObject("Good").toJSONString(),Goods.class);
                 dbop.goodsOp.updateGoods(goods);
                 res12.setSuccess(DefaultRes.successCode);
                 res = res12;
@@ -287,7 +294,7 @@ public class Processor {
                 //TODO 更新订单信息
                 DefaultRes res13 = new DefaultRes();
                 res13.setOperationCode(0);
-                Orders o =JsonPojo.JsonToOrders(message.getJSONObject("Order"));
+                Orders orders = JSON.parseObject(message.getJSONObject("Orders").toJSONString(),Orders.class);
                 dbop.ordersOp.updateOrder(o);
 
                 res13.setSuccess(DefaultRes.successCode);
@@ -318,6 +325,30 @@ public class Processor {
         catch (IOException e)
         {
             System.out.println(e.getMessage()+msg);
+        }
+    }
+
+
+    void UpdateFrequencyByOrders(Orders orders)
+    {
+        JSONObject orderList = JSON.parseObject(orders.getOrderList());
+        String username = orders.getOrderOrderer();
+        Set<String> keys = orderList.keySet();
+        for(String GoodID:keys)
+        {
+            Integer ID = Integer.getInteger(GoodID);
+            Integer count = orderList.getInteger(GoodID);
+            Frequency f = dbop.frequencyOp.getFrequency(username,ID);
+            if(f==null)
+            {
+                f= new Frequency(username,ID,count);
+                dbop.frequencyOp.createFrequency(f);
+            }
+            else
+            {
+                f.setFrequencyNum(f.getFrequencyNum()+count);
+                dbop.frequencyOp.updateFrequency(f);
+            }
         }
     }
 }
