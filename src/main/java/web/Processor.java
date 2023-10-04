@@ -295,7 +295,7 @@ public class Processor {
                 DefaultRes res13 = new DefaultRes();
                 res13.setOperationCode(0);
                 Orders orders = JSON.parseObject(message.getJSONObject("Orders").toJSONString(),Orders.class);
-                dbop.ordersOp.updateOrder(o);
+                dbop.ordersOp.updateOrder(orders);
 
                 res13.setSuccess(DefaultRes.successCode);
                 res = res13;
