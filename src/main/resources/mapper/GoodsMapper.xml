@@ -6,6 +6,7 @@
     <resultMap id="goodsResultMap" type="pojo.Goods">
         <id column="goods_id" property="goodsID" />
         <result column="goods_store" property="goodsStore" />
+        <result column="goods_name" property="goodsName" />
         <result column="goods_photo_url" property="goodsPhotoURL" />
         <result column="goods_describe" property="goodsDescribe" />
         <result column="goods_price" property="goodsPrice" />
@@ -15,6 +16,7 @@
     <insert id="createGoods" useGeneratedKeys="true" keyProperty="goodsID">
         insert into goods set
         goods_store = #{goodsStore},
+        goods_name = #{goodsName},
         goods_price = #{goodsPrice}
         <if test="goodsPhotoURL != null and goodsPhotoURL != ''">
             ,goods_photo_url = #{goodsPhotoURL}
@@ -40,6 +42,9 @@
         set
         <if test="goodsStore != null and goodsStore != ''">
             goods_store = #{goodsStore},
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            goods_store = #{goodsName},
         </if>
         <if test="goodsPhotoURL != null">
             goods_photo_url = #{goodsPhotoURL},
