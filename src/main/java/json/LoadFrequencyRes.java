@@ -11,4 +11,5 @@ public class LoadFrequencyRes extends AbstractRes
     {
         this.FrequencyList = frequencyList;
     }
+    public List<Frequency> getFrequencyList() { return this.FrequencyList;}
 }

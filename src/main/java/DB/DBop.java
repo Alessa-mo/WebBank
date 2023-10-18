@@ -59,7 +59,8 @@ public class DBop {
     public class UserOp {
         private final UserMapper userMapper = sqlSessionManager.getMapper(UserMapper.class);
 
-        public boolean hasAccount(String name) {
+        public boolean hasAccount(String name)
+        {
             System.out.println("DBop:检验账户存在性");
             String res = userMapper.hasAccount(name);
             return res != null;

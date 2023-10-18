@@ -10,6 +10,6 @@ public class LoadGoodRes extends AbstractRes
     List<Goods> GoodList;
 
     public void FillGoodList(List<Goods> sis) { this.GoodList = sis;}
-    public List<Goods> GetShopItems() { return this.GoodList;}
+    public List<Goods> getGoodList() { return this.GoodList;}
 
 }

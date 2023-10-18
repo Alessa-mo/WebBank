@@ -1,5 +1,6 @@
-package json;
+package json.Comment;
 
+import json.AbstractRes;
 import pojo.Comment;
 import java.util.List;
 

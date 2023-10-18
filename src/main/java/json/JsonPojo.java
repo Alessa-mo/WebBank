@@ -42,18 +42,6 @@ public class JsonPojo
                 new Comment(ID,Name,GoodID,CommentTag,CommentText);
     }
 
-    public static Goods JsonToGood(JSONObject jsonObject)
-    {
-        Integer ID = jsonObject.getInteger("ID");
-        String store = jsonObject.getString("Store");
-        String url = jsonObject.getString("URL");
-        String Describe = jsonObject.getString("Describe");
-        String Price = jsonObject.getString("Price");
-        Integer Amount = jsonObject.getInteger("Amount");
-
-        return ID==null? new Goods(store,url,Describe,Price,Amount):
-                new Goods(ID,store,url,Describe,Price,Amount);
-    }
 
 
     public static Store JsonToStore(JSONObject jsonObject)

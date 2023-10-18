@@ -2,9 +2,9 @@
     "op":0,
     "User":
     {
-        "username":"荔园二食堂",
-        "pwd":"123456",
-        "type": 2
+        "userName":"荔园二食堂",
+        "userPassword":"123456",
+        "userType": 2
     }
 }
 
@@ -19,7 +19,8 @@
 }
 
 {
-    "op":2
+    "op":3,
+    "storeName":"包夫子"
 }
 
 {
