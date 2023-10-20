@@ -149,13 +149,13 @@ public class Processor {
                 LoRes.setSuccess(LoadOrderRes.successCode);
                 switch (usertype)
                 {
-                    case 0:
+                    case 1:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfUser(name));
                         break;
-                    case 1:
+                    case 2:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfStore(name));
                         break;
-                    case 2:
+                    case 3:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersToDeliver());
                         break;
                     default:
@@ -170,6 +170,7 @@ public class Processor {
             {
                 //TODO 推送订单状态
                 DefaultRes res6 = new DefaultRes();
+
                 res = res6;
                 break;
             }
