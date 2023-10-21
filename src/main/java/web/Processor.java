@@ -149,13 +149,13 @@ public class Processor {
                 LoRes.setSuccess(LoadOrderRes.successCode);
                 switch (usertype)
                 {
-                    case 1:
+                    case 0:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfUser(name));
                         break;
-                    case 2:
+                    case 1:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfStore(name));
                         break;
-                    case 3:
+                    case 2:
                         LoRes.FillOrders(dbop.ordersOp.getAllOrdersToDeliver());
                         break;
                     default:
