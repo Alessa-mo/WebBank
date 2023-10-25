@@ -165,7 +165,7 @@ public class Processor {
                                 for(int j =0;j<t.size();++j)
                                 {
 
-                                    JSONObject job = t.getJSONObject(i);
+                                    JSONObject job = t.getJSONObject(j);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
                                     String uk = good.getGoodsPhotoURL();
                                     String gk = good.getGoodsName();
@@ -192,7 +192,7 @@ public class Processor {
                                 for(int j =0;j<t.size();++j)
                                 {
 
-                                    JSONObject job = t.getJSONObject(i);
+                                    JSONObject job = t.getJSONObject(j);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
 
                                     String uk = good.getGoodsPhotoURL();
@@ -219,7 +219,7 @@ public class Processor {
                                 for(int j =0;j<t.size();++j)
                                 {
 
-                                    JSONObject job = t.getJSONObject(i);
+                                    JSONObject job = t.getJSONObject(j);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
                                     String uk = good.getGoodsPhotoURL();
                                     String gk = good.getGoodsName();
@@ -348,7 +348,7 @@ public class Processor {
                 String userName = message.getString("userName");
                 Goods goods = JSON.parseObject( message.getJSONObject("Good").toJSONString(),Goods.class);
 
-                if(dbop.userOp.getAccountTypeByName(goods.getGoodsStore())==2 && goods.getGoodsStore().equals(userName))
+                if(dbop.userOp.getAccountTypeByName(goods.getGoodsStore())==1 && goods.getGoodsStore().equals(userName))
                 {//检验用户是否是商店
                     dbop.goodsOp.createGoods(goods);
                     res11.setSuccess(DefaultRes.successCode);
