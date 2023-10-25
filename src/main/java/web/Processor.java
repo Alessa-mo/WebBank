@@ -149,6 +149,8 @@ public class Processor {
                 List<Orders> ordersList;
                 LoRes.setOperationCode(0);
                 LoRes.setSuccess(LoadOrderRes.successCode);
+                String url = "goodsPhotoURL";
+                String goodsName = "goodsName";
                 switch (usertype)
                 {
                     case 0:
@@ -165,8 +167,6 @@ public class Processor {
 
                                     JSONObject job = t.getJSONObject(i);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
-                                    String url = "url";
-                                    String goodsName = "goodsName";
                                     String uk = good.getGoodsPhotoURL();
                                     String gk = good.getGoodsName();
                                     job.put(url,uk);
@@ -194,8 +194,7 @@ public class Processor {
 
                                     JSONObject job = t.getJSONObject(i);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
-                                    String url = "url";
-                                    String goodsName = "goodsName";
+
                                     String uk = good.getGoodsPhotoURL();
                                     String gk = good.getGoodsName();
                                     job.put(url,uk);
@@ -222,8 +221,6 @@ public class Processor {
 
                                     JSONObject job = t.getJSONObject(i);
                                     Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
-                                    String url = "url";
-                                    String goodsName = "goodsName";
                                     String uk = good.getGoodsPhotoURL();
                                     String gk = good.getGoodsName();
                                     job.put(url,uk);
