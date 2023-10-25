@@ -1,5 +1,6 @@
 package web;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import json.*;
 import com.alibaba.fastjson.JSON;
@@ -145,18 +146,41 @@ public class Processor {
                 String name = message.getString("userName");
                 Integer usertype = dbop.userOp.getAccountTypeByName(name);
 
+                List<Orders> ordersList;
                 LoRes.setOperationCode(0);
                 LoRes.setSuccess(LoadOrderRes.successCode);
                 switch (usertype)
                 {
                     case 0:
-                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfUser(name));
+                        ordersList= dbop.ordersOp.getAllOrdersOfUser(name);
+                        for(int i =0;i<ordersList.size();++i)
+                        {
+                            Orders o = ordersList.get(i);
+                            JSONArray t = (JSONArray) JSONArray.parse(o.getOrderList());
+                            if(!t.isEmpty())
+                            {
+                                for(int j =0;j<t.size();++j)
+                                {
+
+                                    JSONObject job = t.getJSONObject(i);
+                                    Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
+                                    String url = "url";
+                                    String goodsName = "goodsName";
+                                    String uk = good.getGoodsPhotoURL();
+                                    String gk = good.getGoodsName();
+                                    job.put(url,uk);
+                                    job.put(goodsName,gk);
+                                }
+                            }
+
+                        }
                         break;
                     case 1:
-                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersOfStore(name));
+                        ordersList = dbop.ordersOp.getAllOrdersOfStore(name);
                         break;
                     case 2:
-                        LoRes.FillOrders(dbop.ordersOp.getAllOrdersToDeliver());
+                        ordersList = dbop.ordersOp.getAllOrdersToDeliver();
+
                         break;
                     default:
                         LoRes.setSuccess(LoadOrderRes.failCode);
