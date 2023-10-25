@@ -152,6 +152,7 @@ public class Processor {
                 switch (usertype)
                 {
                     case 0:
+                    {
                         ordersList= dbop.ordersOp.getAllOrdersOfUser(name);
                         for(int i =0;i<ordersList.size();++i)
                         {
@@ -174,12 +175,63 @@ public class Processor {
                             }
 
                         }
+                    }
+
                         break;
                     case 1:
+                    {
                         ordersList = dbop.ordersOp.getAllOrdersOfStore(name);
+
+                        for(int i =0;i<ordersList.size();++i)
+                        {
+                            Orders o = ordersList.get(i);
+                            JSONArray t = (JSONArray) JSONArray.parse(o.getOrderList());
+                            if(!t.isEmpty())
+                            {
+                                for(int j =0;j<t.size();++j)
+                                {
+
+                                    JSONObject job = t.getJSONObject(i);
+                                    Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
+                                    String url = "url";
+                                    String goodsName = "goodsName";
+                                    String uk = good.getGoodsPhotoURL();
+                                    String gk = good.getGoodsName();
+                                    job.put(url,uk);
+                                    job.put(goodsName,gk);
+                                }
+                            }
+
+                        }
+                    }
+
                         break;
                     case 2:
+                    {
                         ordersList = dbop.ordersOp.getAllOrdersToDeliver();
+                        for(int i =0;i<ordersList.size();++i)
+                        {
+                            Orders o = ordersList.get(i);
+                            JSONArray t = (JSONArray) JSONArray.parse(o.getOrderList());
+                            if(!t.isEmpty())
+                            {
+                                for(int j =0;j<t.size();++j)
+                                {
+
+                                    JSONObject job = t.getJSONObject(i);
+                                    Goods good = dbop.goodsOp.getGoodsByID(job.getInteger("goodsID"));
+                                    String url = "url";
+                                    String goodsName = "goodsName";
+                                    String uk = good.getGoodsPhotoURL();
+                                    String gk = good.getGoodsName();
+                                    job.put(url,uk);
+                                    job.put(goodsName,gk);
+                                }
+                            }
+
+                        }
+                    }
+
 
                         break;
                     default:
