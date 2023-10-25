@@ -173,8 +173,9 @@ public class Processor {
                                     job.put(goodsName,gk);
                                 }
                             }
-
+                            o.setOrderList(t.toJSONString());
                         }
+                        LoRes.FillOrders(ordersList);
                     }
 
                         break;
@@ -201,8 +202,9 @@ public class Processor {
                                     job.put(goodsName,gk);
                                 }
                             }
-
+                            o.setOrderList(t.toJSONString());
                         }
+                        LoRes.FillOrders(ordersList);
                     }
 
                         break;
@@ -228,17 +230,17 @@ public class Processor {
                                     job.put(goodsName,gk);
                                 }
                             }
-
+                            o.setOrderList(t.toJSONString());
                         }
+                        LoRes.FillOrders(ordersList);
                     }
-
-
                         break;
                     default:
                         LoRes.setSuccess(LoadOrderRes.failCode);
                         LoRes.setWrongMessage("用户类型错误");
                         break;
                 }
+
                 return JSON.toJSONString(LoRes);
             }
 
